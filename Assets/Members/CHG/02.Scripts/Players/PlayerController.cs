@@ -7,7 +7,7 @@ using UnityEngine.XR;
 
 namespace Members.CHG._02.Scripts.Players
 {
-    public class Player : Agent
+    public class PlayerController : Agent
     {
         [field:SerializeField] public PlayerInputSO PlayerInput { get; private set; }
         [SerializeField] public StateListSO playerStates;
@@ -25,8 +25,14 @@ namespace Members.CHG._02.Scripts.Players
             ChangeState(PlayerState.IDLE, transitionDuration: 0);
         }
 
-        private void ChangeState(PlayerState newState, int transitionDuration)
+        private void Update()
+        {
+            _stateMachine.UpdateMachine();
+        }
+
+        private void ChangeState(PlayerState newState, float transitionDuration)
             => _stateMachine.ChangeState((int)newState, transitionDuration);
+        
         protected override void HandleHit()
         {
             
