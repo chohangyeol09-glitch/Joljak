@@ -27,7 +27,7 @@ namespace Members.CHG.Scripts.Players.FSM
             
             if (movementKey.magnitude < INPUT_DEADZONE)
             {
-                _player.ChangeState(PlayerState.IDLE, transitionDuration: 0.1f); //IDLE상태로 전환한다.
+                _player.ChangeState(PlayerState.IDLE, transitionDuration: 0.1f); 
                 return;
             }
         }

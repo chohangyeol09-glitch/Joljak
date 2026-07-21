@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5548a575ee144149bfaebe6ec0b5a014, type: 3}
   m_Name: _stat table
   m_EditorClassIdentifier: DatabaseSystem_assembly::GGMLib.DatabaseSystem.Runtime.DataTableSO
-  tableName: 
+  tableName: Stat
   assets:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: f83a2157cff472844bd25d86e9cb9a08, type: 2}
+  - {fileID: 11400000, guid: cce9ceda29fa7274ab6b88744f776cce, type: 2}
+  - {fileID: 11400000, guid: 88e2e741ffd88e240b5e10b26bc9d7a5, type: 2}
+  - {fileID: 11400000, guid: d7e69a4f4dc8c6a44acf279abbece5c3, type: 2}
+  - {fileID: 11400000, guid: 3645c822fbbbc6b4c93e5831fa3fd6b3, type: 2}
+  - {fileID: 11400000, guid: 6df16f157bf32034f9172d799eebbeb8, type: 2}

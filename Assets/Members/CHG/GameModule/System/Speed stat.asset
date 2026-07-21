@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25aa1458a2140759fc2a816059ad802, type: 3}
   m_Name: Speed stat
   m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.Agents.StatSystem.StatSO
-  <AssetIndex>k__BackingField: 0
-  <AssetName>k__BackingField: 
-  <StatName>k__BackingField: 
-  <StatIcon>k__BackingField: {fileID: 0}
-  <DisplayName>k__BackingField: 
+  <AssetIndex>k__BackingField: 1
+  <AssetName>k__BackingField: Speed
+  <StatName>k__BackingField: "\uC774\uB3D9\uC18D\uB3C4"
+  <StatIcon>k__BackingField: {fileID: 21300000, guid: 5b4f0aede8515114e8bd4f679550aa90, type: 3}
+  <DisplayName>k__BackingField: "\uC774\uB3D9\uC18D\uB3C4"
   <IsPercent>k__BackingField: 0
-  baseValue: 0
-  minValue: 0
-  maxValue: 0
-  description: 
+  baseValue: 5
+  minValue: 0.5
+  maxValue: 50
+  description: "\uCE90\uB9AD\uD130\uC758 \uC774\uB3D9\uC18D\uB3C4\uC785\uB2C8\uB2E4."

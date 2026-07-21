@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25aa1458a2140759fc2a816059ad802, type: 3}
+  m_Name: Critical stat
+  m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.Agents.StatSystem.StatSO
+  <AssetIndex>k__BackingField: 4
+  <AssetName>k__BackingField: Critical
+  <StatName>k__BackingField: "\uCE58\uBA85\uD0C0 \uD655\uB960"
+  <StatIcon>k__BackingField: {fileID: 21300000, guid: c989c82568d38fb4491711a271c75e9f, type: 3}
+  <DisplayName>k__BackingField: "\uCE58\uBA85\uD0C0 \uD655\uB960"
+  <IsPercent>k__BackingField: 1
+  baseValue: 0.05
+  minValue: 0
+  maxValue: 1
+  description: "\uACF5\uACA9\uC774 \uCE58\uBA85\uD0C0\uB85C \uC801\uC911\uD560 \uD655\uB960"

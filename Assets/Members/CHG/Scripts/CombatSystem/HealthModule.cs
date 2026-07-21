@@ -9,7 +9,7 @@ namespace Members.CHG.Scripts.CombatSystem
     {
         public event Action OnDeath;
         
-        [SerializeField] private StatSO vitalStat;
+        [SerializeField] private StatSO healthStat;
         [SerializeField] private float baseMaxHealth;
         [SerializeField] private float maxHealth; //나중에 스탯으로 변경한다.
         [SerializeField] private float currentHealth;
@@ -26,7 +26,7 @@ namespace Members.CHG.Scripts.CombatSystem
         {
             if (_statModule != null)
             {
-                float vital = _statModule.SubscribeStat(vitalStat.AssetIndex, HandleVitalChange, vitalStat.BaseValue);
+                float vital = _statModule.SubscribeStat(healthStat.AssetIndex, HandleVitalChange, healthStat.BaseValue);
 
                 float k = 0.01f;
                 currentHealth = maxHealth = baseMaxHealth + 5 * vital / (1 + k * vital);
@@ -35,7 +35,7 @@ namespace Members.CHG.Scripts.CombatSystem
 
         private void OnDestroy()
         {
-            _statModule?.UnSubscribeStat(vitalStat.AssetIndex, HandleVitalChange);
+            _statModule?.UnSubscribeStat(healthStat.AssetIndex, HandleVitalChange);
         }
 
         private void HandleVitalChange(StatSO stat, float currentValue, float prevValue)

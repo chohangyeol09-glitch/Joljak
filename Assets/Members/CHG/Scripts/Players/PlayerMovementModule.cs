@@ -8,7 +8,9 @@ namespace Members.CHG.Scripts.Players
     {
         [SerializeField] private StatSO moveSpeedStat;
         [SerializeField] private float gravity = -9.8f;
-        
+        [SerializeField] private float terminalVelocity = -50f;
+        [SerializeField] private float groundedStickSpeed = -1.5f;
+
 
         private Vector3 _velocity;
         private float _verticalVelocity;
@@ -17,9 +19,9 @@ namespace Members.CHG.Scripts.Players
         private ModuleOwner _owner;
         private IStatModule _statModule;
         private Vector3 _autoVelocity;
-        private float _moveSpeed = 8f;
+        private float _moveSpeed;
         
-        public bool CanManualMove { get; set; }
+        public bool CanManualMove { get; set; } = true;
         public Vector3 Velocity => _velocity;
         public bool IsGround => _characterController.isGrounded;
         
@@ -28,6 +30,8 @@ namespace Members.CHG.Scripts.Players
             _owner = owner;
             _characterController = _owner.GetComponent<CharacterController>();
             _statModule = _owner.GetModule<IStatModule>();
+            
+            Debug.Assert(_statModule != null,$"StatModule is null : {gameObject.name}");
         }
 
         public void AfterInit()
@@ -41,8 +45,6 @@ namespace Members.CHG.Scripts.Players
             _statModule?.UnSubscribeStat(moveSpeedStat.AssetIndex, HandleMoveSpeedChange);
         }
 
-        
-        
         public void SetMovementVelocity(Vector3 velocity)
         {
             _autoVelocity = velocity;
@@ -56,7 +58,7 @@ namespace Members.CHG.Scripts.Players
 
         private void HandleMoveSpeedChange(StatSO stat, float currentValue, float prevValue)
         {
-            
+            _moveSpeed = currentValue;
         }
         
         public void RotateTo(Vector3 direction)
@@ -75,28 +77,31 @@ namespace Members.CHG.Scripts.Players
 
         private void CalculateMovement()
         {
-            if (CanManualMove)
-                _velocity = Quaternion.Euler(0, -45f, 0) * _movementDirection;
-            else
-                _velocity = _autoVelocity;
             
-            _velocity *= _moveSpeed * Time.fixedDeltaTime;
             
+            _velocity = CanManualMove
+                ? _owner.transform.rotation * _movementDirection
+                : _autoVelocity;
+
+            _velocity *= _moveSpeed;
         }
 
         private void ApplyGravity()
         {
             if (IsGround && _verticalVelocity < 0)
-                _verticalVelocity = -0.03f;
-            else 
-                _verticalVelocity += gravity * Time.fixedDeltaTime;
-            
+                _verticalVelocity = groundedStickSpeed;
+            else
+                _verticalVelocity = Mathf.Max(
+                    _verticalVelocity + gravity * Time.fixedDeltaTime, terminalVelocity);
+
             _velocity.y = _verticalVelocity;
         }
 
         private void Move()
         {
-            _characterController.Move(_velocity);
+            _characterController.Move(_velocity * Time.fixedDeltaTime);
+            
+            
         }
         //회전 로직 따로
         

@@ -1,5 +1,5 @@
-﻿using System.Numerics;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+using UnityEngine;
 
 namespace Members.CHG.Scripts.CombatSystem
 {
