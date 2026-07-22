@@ -6,8 +6,5 @@
         bool CanFire { get; }
         void OnStartFire();
         void OnStopFire();
-
-        
-
     }
 }
