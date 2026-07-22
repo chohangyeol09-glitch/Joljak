@@ -3,7 +3,7 @@ using Members.CHG.Scripts.CombatSystem;
 using Members.CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
-namespace Player
+namespace Members.CHG.Scripts.Players
 {
     public class PlayerStatModule : AbstractAgentStatModule
     {

@@ -19,6 +19,8 @@ namespace DefaultNamespace
         
         private Controls _controls;
 
+        public Vector2 CurrentMovement { get; private set; }
+
         private void OnEnable()
         {
             if (_controls == null)
@@ -37,14 +39,16 @@ namespace DefaultNamespace
         
         public void OnMove(InputAction.CallbackContext context)
         {
-            Vector2 movement = context.ReadValue<Vector2>();
-            OnMovementChange?.Invoke(movement);
+            CurrentMovement = context.ReadValue<Vector2>();
+            OnMovementChange?.Invoke(CurrentMovement);
         }
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            Vector2 look = context.ReadValue<Vector2>();
-            OnLookChange?.Invoke(look);
+            //필터가 없으면 started와 performed가 같은 프레임에 둘 다 와서 회전이 2배로 들어간다
+            if (!context.performed) return;
+
+            OnLookChange?.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnAttack(InputAction.CallbackContext context)

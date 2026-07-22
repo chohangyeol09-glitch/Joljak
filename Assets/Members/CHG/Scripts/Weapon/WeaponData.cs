@@ -2,7 +2,7 @@
 
 namespace Members.CHG.Scripts.Weapon
 {
-    [CreateAssetMenu(fileName = "FILENAME", menuName = "MENUNAME", order = 0)]
+    [CreateAssetMenu(fileName = "Weapon data", menuName = "Weapon/Weapon data", order = 0)]
     public class WeaponData : ScriptableObject
     {
         

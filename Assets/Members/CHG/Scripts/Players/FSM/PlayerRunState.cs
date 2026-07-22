@@ -13,6 +13,7 @@ namespace Members.CHG.Scripts.Players.FSM
         {
             base.Enter(transitionDuration, layerIndex);
             _player.PlayerInput.OnMovementChange += HandleMovementChange;
+            _controlMovement.SetMovementDirection(_player.PlayerInput.CurrentMovement);
         }
 
         public override void Exit()
