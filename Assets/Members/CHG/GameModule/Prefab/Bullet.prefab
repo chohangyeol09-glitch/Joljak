@@ -125,3 +125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 836dbdca18be48ce951a79c063ef28a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.Weapon.Bullet
+  <PoolItem>k__BackingField: {fileID: 11400000, guid: 89473eb4ccda4804089a63abc48f8736, type: 2}
+  speed: 20
+  lifeTime: 5
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 384
+  poolManager: {fileID: 11400000, guid: c27dcddfe50702d47adeb8916c8a459a, type: 2}

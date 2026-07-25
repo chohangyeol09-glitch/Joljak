@@ -1,12 +1,15 @@
+using System.Collections.Generic;
 using DefaultNamespace;
+using Members.CHG.Scripts.Agents;
 using Members.CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
 namespace Members.CHG.Scripts.Players
 {
     /// 마우스 입력을 yaw/pitch로 누적해서 LookPivot을 회전시킨다.
-    /// 카메라 자체는 시네머신이 이 피벗을 따라다니며 처리한다
-    public class PlayerLookModule : MonoBehaviour, IModule
+    /// 카메라 자체는 시네머신이 이 피벗을 따라다니며 처리한다.
+    /// 플레이어의 IAimModule 구현체이기도 하다 — "어디를 겨냥하는가"의 주인
+    public class PlayerLookModule : MonoBehaviour, IModule, IAimModule
     {
         [SerializeField] private Transform lookPivot;
         [SerializeField] private float sensitivity = 0.15f;
@@ -14,15 +17,25 @@ namespace Members.CHG.Scripts.Players
         [SerializeField] private float pitchMax = 70f;
         [SerializeField] private bool invertY;
 
+        [SerializeField] private float maxAimDistance = 100f;
+        [SerializeField] private LayerMask aimMask;
+
         private float _yaw;
         private float _pitch;
         private PlayerInputSO _playerInput;
+        private readonly HashSet<object> _aimKeys = new();
 
         /// 이동 기준축. pitch를 빼야 위를 보면서 걸어도 앞으로 간다
         public Quaternion YawRotation => Quaternion.Euler(0f, _yaw, 0f);
 
-        /// 조준 방향. 위아래를 겨눠야 하므로 pitch를 포함한다
-        public Vector3 AimDirection => lookPivot.forward;
+        //--- IAimModule ---
+        public Vector3 AimOrigin => lookPivot.position;
+        public Vector3 AimForward => lookPivot.forward;
+        public Vector3 AimPoint { get; private set; }
+
+        public bool IsAiming => _aimKeys.Count > 0;
+        public void RequestAim(object key) => _aimKeys.Add(key);
+        public void ReleaseAim(object key) => _aimKeys.Remove(key);
 
         public void Initialize(ModuleOwner owner)
         {
@@ -31,6 +44,9 @@ namespace Members.CHG.Scripts.Players
             //시작 각도만 Transform에서 한 번 읽는다. 이후로는 쓰기만 한다
             Debug.Assert(lookPivot != null, $"LookPivot is null : {gameObject.name}");
             _yaw = lookPivot.eulerAngles.y;
+
+            //첫 프레임에 발사하면 AimPoint가 (0,0,0)이라 원점으로 쏜다. 한 번 미리 채운다
+            UpdateAimPoint();
 
             _playerInput.OnLookChange += HandleLookChange;
             Cursor.lockState = CursorLockMode.Locked;
@@ -55,6 +71,15 @@ namespace Members.CHG.Scripts.Players
         {
             //누적한 각도를 매번 새로 써넣는다. eulerAngles로 되읽으면 0~360으로 감겨서 Clamp가 깨진다
             lookPivot.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
+            UpdateAimPoint();
+        }
+
+        //조준선이 실제로 닿는 지점. 매 프레임 한 번만 쏘고 캐싱해 여러 소비자가 공유한다
+        private void UpdateAimPoint()
+        {
+            AimPoint = Physics.Raycast(AimOrigin, AimForward, out RaycastHit hit, maxAimDistance, aimMask)
+                ? hit.point
+                : AimOrigin + AimForward * maxAimDistance;
         }
     }
 }

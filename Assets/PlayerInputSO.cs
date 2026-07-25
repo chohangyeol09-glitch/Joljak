@@ -16,6 +16,8 @@ namespace DefaultNamespace
         public event Action OnJumpKeyDown;
         public event Action OnDashKeyDown;
         public event Action OnDashKeyUp;
+        public event Action OnReloadKeyDown;
+        public event Action OnReloadKeyUp;
         
         private Controls _controls;
 
@@ -54,7 +56,7 @@ namespace DefaultNamespace
         public void OnAttack(InputAction.CallbackContext context)
         {
 
-            if (context.started)
+            if (context.performed)
                 OnAttackKeyDown?.Invoke();
 
             if (context.canceled)
@@ -63,7 +65,7 @@ namespace DefaultNamespace
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
                 OnEventKeyDown?.Invoke();
             
             if (context.canceled)
@@ -83,6 +85,16 @@ namespace DefaultNamespace
             
             if (context.canceled)
                 OnDashKeyUp?.Invoke();
+        }
+
+        public void OnReload(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnReloadKeyDown?.Invoke();
+            
+            if (context.canceled)
+                OnReloadKeyUp?.Invoke();
+                
         }
     }
 }

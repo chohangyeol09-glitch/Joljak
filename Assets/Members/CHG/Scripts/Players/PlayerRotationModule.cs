@@ -14,9 +14,6 @@ namespace Members.CHG.Scripts.Players
         private PlayerMovementModule _movement;
         private PlayerLookModule _look;
 
-        /// 조준 중이면 이동과 무관하게 카메라 방향을 본다(게걸음)
-        public bool IsAiming { get; set; }
-
         public void Initialize(ModuleOwner owner)
         {
             Debug.Assert(visual != null, $"Model is null : {gameObject.name}");
@@ -30,7 +27,8 @@ namespace Members.CHG.Scripts.Players
 
         private void FixedUpdate()
         {
-            Vector3 target = IsAiming ? AimTarget() : MoveTarget();
+            //조준 상태의 주인은 LookModule(IAimModule). 회전은 읽기만 한다
+            Vector3 target = _look.IsAiming ? AimTarget() : MoveTarget();
 
             //목표가 없으면(제자리) 현재 방향을 유지한다. 억지로 돌리지 않는다
             if (target.sqrMagnitude < Mathf.Epsilon) return;

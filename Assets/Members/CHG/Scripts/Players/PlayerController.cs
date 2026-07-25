@@ -14,7 +14,7 @@ namespace Members.CHG.Scripts.Players
         
         private StateMachine _stateMachine;
         private IControlMovement _controlMovement;
-        private PlayerRotationModule _rotationModule;
+        private IAimModule _aimModule;
         private IWeapon _weapon;
 
         protected override void InitializeModules()
@@ -22,11 +22,11 @@ namespace Members.CHG.Scripts.Players
             base.InitializeModules();
             _stateMachine = new StateMachine(this, playerStates.states);
             _controlMovement = GetModule<IControlMovement>();
-            _rotationModule = GetModule<PlayerRotationModule>();
+            _aimModule = GetModule<IAimModule>();
             _weapon = GetModule<IWeapon>();
             
             Debug.Assert(_controlMovement != null, $"ControlMovement is null : {gameObject.name}");
-            Debug.Assert(_rotationModule != null, $"RotationModule is null : {gameObject.name}");
+            Debug.Assert(_aimModule != null, $"AimModule is null : {gameObject.name}");
             Debug.Assert(_weapon != null, $"Weapon is null : {gameObject.name}");
         }
 
@@ -35,21 +35,31 @@ namespace Members.CHG.Scripts.Players
             base.AfterInitializeModules();
             PlayerInput.OnJumpKeyDown += HandleJump;
 
-            PlayerInput.OnAttackKeyDown += HandleAimStart;
-            PlayerInput.OnAttackKeyUp += HandleAimEnd;
+            PlayerInput.OnAttackKeyDown += HandleAttackStart;
+            PlayerInput.OnAttackKeyUp += HandleAttackEnd;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
             PlayerInput.OnJumpKeyDown -= HandleJump;
-            PlayerInput.OnAttackKeyDown -= HandleAimStart;
-            PlayerInput.OnAttackKeyUp -= HandleAimEnd;
+            PlayerInput.OnAttackKeyDown -= HandleAttackStart;
+            PlayerInput.OnAttackKeyUp -= HandleAttackEnd;
         }
 
         private void HandleJump() => _controlMovement.TryJump();
-        private void HandleAimStart() => _rotationModule.IsAiming = true;
-        private void HandleAimEnd() => _rotationModule.IsAiming = false;
+
+        //키 기반이라 여러 소스(공격, 스킬)가 겹쳐 요청해도 안전하다. 자기 키(this)만 회수
+        private void HandleAttackStart()
+        {
+            _aimModule.RequestAim(this);
+            _weapon.OnStartFire();
+        }
+        private void HandleAttackEnd()
+        {
+            _aimModule.ReleaseAim(this);
+            _weapon.OnStopFire();
+        }
 
         private void Start()
         {
