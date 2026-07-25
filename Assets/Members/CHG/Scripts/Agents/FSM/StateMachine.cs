@@ -34,5 +34,7 @@ namespace Members.CHG.Scripts.Agents.FSM
         }
         
         public void UpdateMachine() => CurrentState?.Update();
+
+        public void FixedUpdateMachine() => CurrentState?.FixedUpdate();
     }
 }
