@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Members.CHG.Scripts.Agents.FSM
+namespace CHG.Scripts.Agents.FSM
 {
     [CreateAssetMenu(fileName = "StateListData", menuName = "Agent/State list", order = 0)]
     public class StateListSO : ScriptableObject

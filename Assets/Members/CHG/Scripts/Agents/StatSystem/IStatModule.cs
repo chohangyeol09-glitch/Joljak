@@ -1,6 +1,6 @@
-﻿using Members.CHG.Scripts.CombatSystem;
+﻿using CHG.Scripts.CombatSystem;
 
-namespace Members.CHG.Scripts.Agents.StatSystem
+namespace CHG.Scripts.Agents.StatSystem
 {
     public interface IStatModule
     {

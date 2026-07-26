@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Members.CHG.Scripts.Agents
+namespace CHG.Scripts.Agents
 {
     public interface IRenderer
     {

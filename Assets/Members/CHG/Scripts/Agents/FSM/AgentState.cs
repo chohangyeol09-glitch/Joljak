@@ -1,7 +1,10 @@
-﻿namespace Members.CHG.Scripts.Agents.FSM
+﻿namespace CHG.Scripts.Agents.FSM
 {
     public abstract class AgentState
     {
+        public int Priority { get; set; }
+        public virtual bool CanEnter() => true;
+        
         protected Agent _agent;
         protected readonly int _stateClipHash;
 
@@ -19,10 +22,8 @@
             _renderer.PlayClip(_stateClipHash, 0f, transitionDuration, layerIndex);
         }
 
-        /// 입력 읽기, 상태 전환 판정
         public virtual void Update() { }
 
-        /// 물리에 영향을 주는 로직. 이동 모듈과 같은 틱에서 돈다
         public virtual void FixedUpdate() { }
 
         public virtual void Exit() {}

@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Members.CHG.Scripts.CombatSystem;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+using CHG.Scripts.CombatSystem;
+using CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Agents.StatSystem
+namespace CHG.Scripts.Agents.StatSystem
 {
     public abstract class AbstractAgentStatModule : MonoBehaviour, IModule, IStatModule
     {
         [SerializeField] private StatOverride[] statOverrides;
 
         protected ModuleOwner _owner;
-        protected Dictionary<int, StatSO> _statDict; //진짜 복제된 스탯들이 들어가는곳
+        protected Dictionary<int, StatSO> _statDict;
         
         public virtual void Initialize(ModuleOwner owner)
         {

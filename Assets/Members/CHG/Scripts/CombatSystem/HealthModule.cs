@@ -1,9 +1,9 @@
 ﻿using System;
-using Members.CHG.Scripts.Agents.StatSystem;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+using CHG.Scripts.Agents.StatSystem;
+using CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.CombatSystem
+namespace CHG.Scripts.CombatSystem
 {
     public class HealthModule : MonoBehaviour, IModule
     {
@@ -11,7 +11,7 @@ namespace Members.CHG.Scripts.CombatSystem
         
         [SerializeField] private StatSO healthStat;
         [SerializeField] private float baseMaxHealth;
-        [SerializeField] private float maxHealth; //나중에 스탯으로 변경한다.
+        [SerializeField] private float maxHealth;
         [SerializeField] private float currentHealth;
 
         private ModuleOwner _owner;

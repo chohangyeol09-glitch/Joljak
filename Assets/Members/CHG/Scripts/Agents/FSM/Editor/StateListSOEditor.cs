@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
-using Members.CHG.Scripts.CoreSystem;
+using CHG.Scripts.Agents.FSM;
+using CHG.Scripts.CoreSystem;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;

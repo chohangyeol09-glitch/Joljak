@@ -1,14 +1,11 @@
 using System.Collections.Generic;
+using CHG.Scripts.Agents;
+using CHG.Scripts.CoreSystem.ModuleSystem;
 using DefaultNamespace;
-using Members.CHG.Scripts.Agents;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Players
+namespace CHG.Scripts.Players
 {
-    /// 마우스 입력을 yaw/pitch로 누적해서 LookPivot을 회전시킨다.
-    /// 카메라 자체는 시네머신이 이 피벗을 따라다니며 처리한다.
-    /// 플레이어의 IAimModule 구현체이기도 하다 — "어디를 겨냥하는가"의 주인
     public class PlayerLookModule : MonoBehaviour, IModule, IAimModule
     {
         [SerializeField] private Transform lookPivot;
@@ -25,10 +22,8 @@ namespace Members.CHG.Scripts.Players
         private PlayerInputSO _playerInput;
         private readonly HashSet<object> _aimKeys = new();
 
-        /// 이동 기준축. pitch를 빼야 위를 보면서 걸어도 앞으로 간다
         public Quaternion YawRotation => Quaternion.Euler(0f, _yaw, 0f);
 
-        //--- IAimModule ---
         public Vector3 AimOrigin => lookPivot.position;
         public Vector3 AimForward => lookPivot.forward;
         public Vector3 AimPoint { get; private set; }
@@ -41,11 +36,9 @@ namespace Members.CHG.Scripts.Players
         {
             _playerInput = (owner as PlayerController).PlayerInput;
 
-            //시작 각도만 Transform에서 한 번 읽는다. 이후로는 쓰기만 한다
             Debug.Assert(lookPivot != null, $"LookPivot is null : {gameObject.name}");
             _yaw = lookPivot.eulerAngles.y;
 
-            //첫 프레임에 발사하면 AimPoint가 (0,0,0)이라 원점으로 쏜다. 한 번 미리 채운다
             UpdateAimPoint();
 
             _playerInput.OnLookChange += HandleLookChange;
@@ -60,7 +53,6 @@ namespace Members.CHG.Scripts.Players
 
         private void HandleLookChange(Vector2 lookDelta)
         {
-            //마우스 delta는 이미 "이번 프레임에 움직인 양"이라 deltaTime을 곱하지 않는다
             _yaw += lookDelta.x * sensitivity;
             _pitch += lookDelta.y * sensitivity * (invertY ? 1f : -1f);
 
@@ -69,12 +61,10 @@ namespace Members.CHG.Scripts.Players
 
         private void Update()
         {
-            //누적한 각도를 매번 새로 써넣는다. eulerAngles로 되읽으면 0~360으로 감겨서 Clamp가 깨진다
             lookPivot.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
             UpdateAimPoint();
         }
 
-        //조준선이 실제로 닿는 지점. 매 프레임 한 번만 쏘고 캐싱해 여러 소비자가 공유한다
         private void UpdateAimPoint()
         {
             AimPoint = Physics.Raycast(AimOrigin, AimForward, out RaycastHit hit, maxAimDistance, aimMask)

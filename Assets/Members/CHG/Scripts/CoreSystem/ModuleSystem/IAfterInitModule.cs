@@ -1,4 +1,4 @@
-namespace Members.CHG.Scripts.CoreSystem.ModuleSystem
+namespace CHG.Scripts.CoreSystem.ModuleSystem
 {
     public interface IAfterInitModule
     {

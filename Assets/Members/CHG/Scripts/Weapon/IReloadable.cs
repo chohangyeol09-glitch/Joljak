@@ -1,4 +1,4 @@
-﻿namespace Members.CHG.Scripts.Weapon
+﻿namespace CHG.Scripts.Weapon
 {
     public interface IReloadable
     {

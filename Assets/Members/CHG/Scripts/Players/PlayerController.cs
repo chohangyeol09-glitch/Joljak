@@ -1,11 +1,12 @@
-﻿using DefaultNamespace;
-using Members.CHG.Scripts.Agents;
-using Members.CHG.Scripts.Agents.FSM;
+﻿using CHG.Scripts.Agents;
+using CHG.Scripts.Agents.FSM;
+using CHG.Scripts.Players.FSM;
+using CHG.Scripts.Weapon;
+using DefaultNamespace;
 using Members.CHG.Scripts.Players.FSM;
-using Members.CHG.Scripts.Weapon;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Players
+namespace CHG.Scripts.Players
 {
     public class PlayerController : Agent
     {
@@ -16,6 +17,7 @@ namespace Members.CHG.Scripts.Players
         private IControlMovement _controlMovement;
         private IAimModule _aimModule;
         private IWeapon _weapon;
+        private ConstraintModule _constraint;
 
         protected override void InitializeModules()
         {
@@ -24,10 +26,12 @@ namespace Members.CHG.Scripts.Players
             _controlMovement = GetModule<IControlMovement>();
             _aimModule = GetModule<IAimModule>();
             _weapon = GetModule<IWeapon>();
+            _constraint = GetModule<ConstraintModule>();
             
             Debug.Assert(_controlMovement != null, $"ControlMovement is null : {gameObject.name}");
             Debug.Assert(_aimModule != null, $"AimModule is null : {gameObject.name}");
             Debug.Assert(_weapon != null, $"Weapon is null : {gameObject.name}");
+            Debug.Assert(_constraint != null, $"Constraint is null : {gameObject.name}");
         }
 
         protected override void AfterInitializeModules()
@@ -37,7 +41,13 @@ namespace Members.CHG.Scripts.Players
 
             PlayerInput.OnAttackKeyDown += HandleAttackStart;
             PlayerInput.OnAttackKeyUp += HandleAttackEnd;
+            PlayerInput.OnDashKeyDown += HandleDash;
+            _constraint.OnConstraintAdded += HandleConstraintAdded;
+            _constraint.OnConstraintRemoved += HandleConstraintRemoved;
         }
+
+        
+
 
         protected override void OnDestroy()
         {
@@ -45,11 +55,12 @@ namespace Members.CHG.Scripts.Players
             PlayerInput.OnJumpKeyDown -= HandleJump;
             PlayerInput.OnAttackKeyDown -= HandleAttackStart;
             PlayerInput.OnAttackKeyUp -= HandleAttackEnd;
+            _constraint.OnConstraintAdded -= HandleConstraintAdded;
+            _constraint.OnConstraintRemoved -= HandleConstraintRemoved;
         }
 
         private void HandleJump() => _controlMovement.TryJump();
 
-        //키 기반이라 여러 소스(공격, 스킬)가 겹쳐 요청해도 안전하다. 자기 키(this)만 회수
         private void HandleAttackStart()
         {
             _aimModule.RequestAim(this);
@@ -78,7 +89,28 @@ namespace Members.CHG.Scripts.Players
 
         public void ChangeState(PlayerState newState, float transitionDuration)
             => _stateMachine.ChangeState((int)newState, transitionDuration);
-     
+        public void TryChangeState(PlayerState newState, float transitionDuration)
+            => _stateMachine.TryChangeState((int)newState, transitionDuration);
+        
+        private void HandleDash()
+        {
+            TryChangeState(PlayerState.DASH, 0.05f);
+        }
+
+        private void HandleConstraintAdded(ConstraintType type)
+        {
+            if (type == ConstraintType.Stunned)
+                TryChangeState(PlayerState.STUN, 0.1f);
+        }
+        
+        private void HandleConstraintRemoved(ConstraintType type)
+        {
+            if (type != ConstraintType.Stunned) return;
+
+            bool hasInput = PlayerInput.CurrentMovement.magnitude > 0.1f;
+            ChangeState(hasInput ? PlayerState.RUN : PlayerState.IDLE, 0.1f);
+        }
+        
         protected override void HandleHit()
         {
             

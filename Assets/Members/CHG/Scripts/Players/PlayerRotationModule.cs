@@ -1,15 +1,14 @@
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+using CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Players
+namespace CHG.Scripts.Players
 {
-    /// 모델(몸)을 목표 방향으로 회전 속도 제한을 걸어 돌린다.
-    /// 평상시엔 이동 방향, 조준 중엔 카메라 방향을 본다.
-    /// 루트를 돌리면 카메라가 딸려 돌기 때문에 반드시 모델 자식만 돌린다
     public class PlayerRotationModule : MonoBehaviour, IModule
     {
         [SerializeField] private Transform visual;
-        [SerializeField] private float turnSpeed = 720f;   // 초당 도(度)
+        [SerializeField] private Transform chest;
+        [SerializeField] private float turnSpeed = 720f;
+        [SerializeField] private float maxChestTween;
 
         private PlayerMovementModule _movement;
         private PlayerLookModule _look;
@@ -27,18 +26,29 @@ namespace Members.CHG.Scripts.Players
 
         private void FixedUpdate()
         {
-            //조준 상태의 주인은 LookModule(IAimModule). 회전은 읽기만 한다
-            Vector3 target = _look.IsAiming ? AimTarget() : MoveTarget();
-
-            //목표가 없으면(제자리) 현재 방향을 유지한다. 억지로 돌리지 않는다
-            if (target.sqrMagnitude < Mathf.Epsilon) return;
+            Vector3 target;
+            if (MoveTarget().sqrMagnitude > Mathf.Epsilon)
+                target = MoveTarget();
+            else if (_look.IsAiming)
+                target = AimTarget();
+            else return;
 
             Quaternion goal = Quaternion.LookRotation(target);
-            visual.rotation = Quaternion.RotateTowards(
-                visual.rotation, goal, turnSpeed * Time.fixedDeltaTime);
+            visual.rotation = Quaternion.RotateTowards(visual.rotation, goal, turnSpeed * Time.fixedDeltaTime);
+            
         }
 
-        //실제로 움직이는 방향을 본다. 수평만
+        private void LateUpdate()
+        {
+            if (!_look.IsAiming || chest == null) return;
+
+            float aimYaw = _look.YawRotation.eulerAngles.y;
+            float bodyYaw = visual.eulerAngles.y;
+            float twist = Mathf.Clamp(Mathf.DeltaAngle(bodyYaw, aimYaw), -maxChestTween, maxChestTween);
+            
+            chest.Rotate(Vector3.up, twist, Space.World);
+        }
+
         private Vector3 MoveTarget()
         {
             Vector3 v = _movement.HorizontalVelocity;
@@ -46,7 +56,6 @@ namespace Members.CHG.Scripts.Players
             return v;
         }
 
-        //몸은 pitch를 따라가지 않으므로 yaw만 사용한다
         private Vector3 AimTarget() => _look.YawRotation * Vector3.forward;
     }
 }

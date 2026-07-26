@@ -1,9 +1,9 @@
-﻿using Members.CHG.Scripts.Agents.StatSystem;
-using Members.CHG.Scripts.CombatSystem;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using CHG.Scripts.Agents.StatSystem;
+using CHG.Scripts.CombatSystem;
+using CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Players
+namespace CHG.Scripts.Players
 {
     public class PlayerStatModule : AbstractAgentStatModule
     {

@@ -1,8 +1,7 @@
-﻿using System;
-using DevLib.ObjectPool.Runtime;
+﻿using DevLib.ObjectPool.Runtime;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Weapon
+namespace CHG.Scripts.Weapon
 {
     public class Bullet : PoolableMono
     {

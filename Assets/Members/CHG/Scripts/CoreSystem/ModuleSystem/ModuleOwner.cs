@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.CoreSystem.ModuleSystem
+namespace CHG.Scripts.CoreSystem.ModuleSystem
 {
     public abstract class ModuleOwner : MonoBehaviour
     {

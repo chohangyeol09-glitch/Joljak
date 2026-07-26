@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9627ef394f74292b32ad7d70b050a8a, type: 3}
-  m_Name: RUN state
+  m_Name: STUN state
   m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.Agents.FSM.StateSO
-  stateName: RUN
-  className: CHG.Scripts.Players.FSM.PlayerRunState
-  assetIndex: 1
-  stateParam: {fileID: 11400000, guid: e068a4d84837ba2448d975903905d4cc, type: 2}
-  priority: 0
+  stateName: STUN
+  className: CHG.Scripts.Players.FSM.PlayerStunState
+  assetIndex: 3
+  stateParam: {fileID: 11400000, guid: 91f10cf4d2431f440b1f468c9d8cf7fc, type: 2}
+  priority: 100

@@ -1,8 +1,8 @@
 using System;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+using CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Agents
+namespace CHG.Scripts.Agents
 {
     public class AgentTrigger : MonoBehaviour, IModule
     {

@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using CHG.Scripts.CoreSystem.ModuleSystem;
+using UnityEngine;
+
+namespace CHG.Scripts.Agents
+{
+    public enum ConstraintType
+    {
+        Rooted,     
+        Disarmed,   
+        Silenced,   
+        Unaimable,  
+        Stunned,
+        Weightless,
+    }
+    
+    public class ConstraintModule : MonoBehaviour, IModule
+    {
+        private readonly Dictionary<ConstraintType, HashSet<object>> _holders = new();
+
+        public event Action<ConstraintType> OnConstraintAdded;
+        public event Action<ConstraintType> OnConstraintRemoved;
+
+        public void Initialize(ModuleOwner owner) { }
+
+        public bool Has(ConstraintType type)
+            => _holders.TryGetValue(type, out var set) && set.Count > 0;
+
+        public void Add(ConstraintType type, object key)
+        {
+            if (!_holders.TryGetValue(type, out var set))
+                _holders[type] = set = new HashSet<object>();
+
+            bool wasEmpty = set.Count == 0;
+            if (set.Add(key) && wasEmpty)
+                OnConstraintAdded?.Invoke(type);
+        }
+
+        public void Remove(ConstraintType type, object key)
+        {
+            if (!_holders.TryGetValue(type, out var set)) return;
+
+            if (set.Remove(key) && set.Count == 0)
+                OnConstraintRemoved?.Invoke(type);
+        }
+    }
+}

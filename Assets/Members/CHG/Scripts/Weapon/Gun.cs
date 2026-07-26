@@ -1,17 +1,18 @@
-﻿using System;
+﻿using CHG.Scripts.Agents;
+using CHG.Scripts.CoreSystem.AnimationSystem;
+using CHG.Scripts.CoreSystem.ModuleSystem;
 using DevLib.ObjectPool.Runtime;
-using Members.CHG.Scripts.Agents;
-using Members.CHG.Scripts.CoreSystem.AnimationSystem;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Weapon
+namespace CHG.Scripts.Weapon
 {
     public class Gun : MonoBehaviour, IWeapon, IReloadable, IModule
     {
         [Header("Weapon")]
         [field: SerializeField] public WeaponData Data { get; private set; }
-        public bool CanFire { get; private set; }
+        public bool CanFire => !IsReloading
+                               && CurrentAmmo > 0
+                               && !_constraint.Has(ConstraintType.Disarmed);
         
         [Header("Reload")]
         [field: SerializeField] public int CurrentAmmo { get; private set; }
@@ -30,8 +31,8 @@ namespace Members.CHG.Scripts.Weapon
         [SerializeField] private int upperBodyLayer = 1;
         
         private IRenderer _renderer;
-        
         private IAimModule _aim;
+        private ConstraintModule _constraint;
         private bool _isFiring;
         private float _nextFireTime;
         
@@ -43,8 +44,9 @@ namespace Members.CHG.Scripts.Weapon
             MaxAmmo = Data.MaxAmmo;
             ReloadTime = Data.ReloadTime;
             CurrentAmmo = MaxAmmo;   
-            CanFire = true;
+            _constraint = owner.GetModule<ConstraintModule>();
             
+            Debug.Assert(_constraint != null, $"ConstraintModule is null : {gameObject.name}");
             Debug.Assert(_renderer != null, $"Renderer is null : {gameObject.name}");
             Debug.Assert(_aim != null, $"AimModule is null : {gameObject.name}");
         }
@@ -64,8 +66,7 @@ namespace Members.CHG.Scripts.Weapon
 
         private void Update()
         {
-            if (!_isFiring || Time.time < _nextFireTime || !CanFire
-                || IsReloading || CurrentAmmo <= 0) return;
+            if (!_isFiring || Time.time < _nextFireTime || !CanFire) return;
 
             Fire();
             _nextFireTime = Time.time + 1f / Data.FireRate;
