@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChestData
   chestPrefab: {fileID: 509034890209457981, guid: f7608c16ff3713f45ac018079e2c26ba, type: 3}
   basePurchasePrice: 25
-  spawnCost: 20
+  spawnCost: 10
   spawnWeight: 1
