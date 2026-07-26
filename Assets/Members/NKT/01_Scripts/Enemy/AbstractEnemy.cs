@@ -1,4 +1,5 @@
-using Members.CHG.Scripts.Agents;
+using CHG.Scripts.Agents;
+using Members.CHG.Scripts;
 using NKT.Enemy.Modules;
 using NKT.WayPoint;
 using UnityEngine;

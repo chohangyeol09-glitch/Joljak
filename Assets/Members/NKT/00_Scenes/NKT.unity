@@ -318,6 +318,7 @@ Transform:
   m_Children:
   - {fileID: 1994562260}
   - {fileID: 1028713303}
+  - {fileID: 1411000290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &149670223
@@ -625,6 +626,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c99ed24d7d04be18278e6caaf4d4c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NKT.Enemy.Modules.NavMovement
+--- !u!1 &1411000289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1411000290}
+  - component: {fileID: 1411000291}
+  m_Layer: 0
+  m_Name: Health
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1411000290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411000289}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 149670222}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1411000291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411000289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e6b2c9bba44c659978900e3798295b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CHG.Scripts.CombatSystem.HealthModule
+  healthStat: {fileID: 11400000, guid: 88e2e741ffd88e240b5e10b26bc9d7a5, type: 2}
+  baseMaxHealth: 100
+  maxHealth: 100
+  currentHealth: 100
 --- !u!1 &1691847196
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,6 +972,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 149670222}
     m_Modifications:
+    - target: {fileID: 2461182745850615650, guid: ca018b124d8c019429d0e85fd9d560fc, type: 3}
+      propertyPath: maxColliderCount
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2483194013151953073, guid: ca018b124d8c019429d0e85fd9d560fc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

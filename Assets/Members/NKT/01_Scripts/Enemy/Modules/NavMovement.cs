@@ -1,4 +1,4 @@
-﻿using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 using UnityEngine.AI;
 

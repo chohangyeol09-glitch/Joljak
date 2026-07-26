@@ -1,4 +1,4 @@
-﻿using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine;
 
 namespace NKT.Enemy.Modules
@@ -17,7 +17,7 @@ namespace NKT.Enemy.Modules
         public void Initialize(ModuleOwner owner)
         {
             _owner = owner;
-            Debug.Assert(maxColliderCount < 0, "maxColliderCount > 0이어야 함");
+            Debug.Assert(maxColliderCount > 0, "maxColliderCount > 0이어야 함");
             _colliderResults = new Collider[maxColliderCount];
         }
         
