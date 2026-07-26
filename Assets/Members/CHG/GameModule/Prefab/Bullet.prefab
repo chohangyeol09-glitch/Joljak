@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.Weapon.Bullet
   <PoolItem>k__BackingField: {fileID: 11400000, guid: 89473eb4ccda4804089a63abc48f8736, type: 2}
-  speed: 20
+  speed: 40.1
   lifeTime: 5
   hitMask:
     serializedVersion: 2
