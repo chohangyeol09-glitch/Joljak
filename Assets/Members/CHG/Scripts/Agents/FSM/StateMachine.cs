@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Agents.FSM
+namespace CHG.Scripts.Agents.FSM
 {
     public class StateMachine
     {
@@ -18,6 +18,7 @@ namespace Members.CHG.Scripts.Agents.FSM
                 Debug.Assert(type != null, $"찾고자 하는 타입이 없습니다. : {stateData.className}");
                 int paramHash = stateData.stateParam != null ? stateData.stateParam.ParamHash : 0;
                 AgentState state = (AgentState)Activator.CreateInstance(type, agent, paramHash);
+                state.Priority = stateData.priority;
                 
                 _stateDict.Add(stateData.assetIndex, state);
             }
@@ -34,5 +35,20 @@ namespace Members.CHG.Scripts.Agents.FSM
         }
         
         public void UpdateMachine() => CurrentState?.Update();
+
+        public void FixedUpdateMachine() => CurrentState?.FixedUpdate();
+
+        public bool TryChangeState(int newStateIndex, float transitionDuration)
+        {
+            AgentState newState = _stateDict.GetValueOrDefault(newStateIndex);
+            Debug.Assert(newState != null, $"new State is null : {newStateIndex}");
+
+            if (!newState.CanEnter()) return false;
+            if (CurrentState != null && newState.Priority < CurrentState.Priority)
+                return false;
+            
+            ChangeState(newStateIndex, transitionDuration);
+            return true;
+        }
     }
 }

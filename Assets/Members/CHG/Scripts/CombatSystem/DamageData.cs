@@ -1,7 +1,7 @@
-﻿using System.Numerics;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using CHG.Scripts.CoreSystem.ModuleSystem;
+using UnityEngine;
 
-namespace Members.CHG.Scripts.CombatSystem
+namespace CHG.Scripts.CombatSystem
 {
     public struct DamageData
     {

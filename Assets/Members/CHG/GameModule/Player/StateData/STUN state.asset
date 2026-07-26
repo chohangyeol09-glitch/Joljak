@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9627ef394f74292b32ad7d70b050a8a, type: 3}
+  m_Name: STUN state
+  m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.Agents.FSM.StateSO
+  stateName: STUN
+  className: CHG.Scripts.Players.FSM.PlayerStunState
+  assetIndex: 3
+  stateParam: {fileID: 11400000, guid: 91f10cf4d2431f440b1f468c9d8cf7fc, type: 2}
+  priority: 100

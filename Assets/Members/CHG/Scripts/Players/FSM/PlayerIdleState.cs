@@ -1,7 +1,8 @@
-using Members.CHG.Scripts.Agents;
+using CHG.Scripts.Agents;
+using Members.CHG.Scripts.Players.FSM;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Players.FSM
+namespace CHG.Scripts.Players.FSM
 {
     public class PlayerIdleState : AbstractPlayerState
     {

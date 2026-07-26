@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Members.CHG.Scripts.CombatSystem
+namespace CHG.Scripts.CombatSystem
 {
     public enum SkillDamageType
     {

@@ -3,6 +3,6 @@ namespace Members.CHG.Scripts.Players.FSM
 {
     public enum PlayerState
     {
-        IDLE = 0,RUN = 1
+        IDLE = 0,RUN = 1,DASH = 2,STUN = 3
     }
 }

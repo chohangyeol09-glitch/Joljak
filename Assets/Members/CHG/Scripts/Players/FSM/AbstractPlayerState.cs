@@ -1,7 +1,7 @@
-using Members.CHG.Scripts.Agents;
-using Members.CHG.Scripts.Agents.FSM;
+using CHG.Scripts.Agents;
+using CHG.Scripts.Agents.FSM;
 
-namespace Members.CHG.Scripts.Players.FSM
+namespace CHG.Scripts.Players.FSM
 {
     public abstract class AbstractPlayerState : AgentState
     {

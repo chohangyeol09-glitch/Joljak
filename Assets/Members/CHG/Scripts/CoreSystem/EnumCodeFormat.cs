@@ -1,4 +1,4 @@
-namespace Members.CHG.Scripts.CoreSystem
+namespace CHG.Scripts.CoreSystem
 {
     public static class EnumCodeFormat
     {

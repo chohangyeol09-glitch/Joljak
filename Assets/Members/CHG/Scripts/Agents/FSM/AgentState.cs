@@ -1,7 +1,10 @@
-﻿namespace Members.CHG.Scripts.Agents.FSM
+﻿namespace CHG.Scripts.Agents.FSM
 {
     public abstract class AgentState
     {
+        public int Priority { get; set; }
+        public virtual bool CanEnter() => true;
+        
         protected Agent _agent;
         protected readonly int _stateClipHash;
 
@@ -20,7 +23,9 @@
         }
 
         public virtual void Update() { }
-        
+
+        public virtual void FixedUpdate() { }
+
         public virtual void Exit() {}
     }
 }

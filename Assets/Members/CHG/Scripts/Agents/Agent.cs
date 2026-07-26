@@ -1,8 +1,8 @@
-﻿using Members.CHG.Scripts.CombatSystem;
-using Members.CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using CHG.Scripts.CombatSystem;
+using CHG.Scripts.CoreSystem.ModuleSystem;
 using UnityEngine.Events;
 
-namespace Members.CHG.Scripts.Agents
+namespace CHG.Scripts.Agents
 {
     public abstract class Agent : ModuleOwner
     {

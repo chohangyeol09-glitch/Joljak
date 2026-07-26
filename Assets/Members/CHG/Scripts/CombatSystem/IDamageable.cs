@@ -1,4 +1,4 @@
-﻿namespace Members.CHG.Scripts.CombatSystem
+﻿namespace CHG.Scripts.CombatSystem
 {
     public interface IDamageable
     {

@@ -1,7 +1,8 @@
-using Members.CHG.Scripts.Agents;
+using CHG.Scripts.Agents;
+using Members.CHG.Scripts.Players.FSM;
 using UnityEngine;
 
-namespace Members.CHG.Scripts.Players.FSM
+namespace CHG.Scripts.Players.FSM
 {
     public class PlayerRunState : AbstractPlayerState
     {
@@ -13,6 +14,7 @@ namespace Members.CHG.Scripts.Players.FSM
         {
             base.Enter(transitionDuration, layerIndex);
             _player.PlayerInput.OnMovementChange += HandleMovementChange;
+            _controlMovement.SetMovementDirection(_player.PlayerInput.CurrentMovement);
         }
 
         public override void Exit()
@@ -27,7 +29,7 @@ namespace Members.CHG.Scripts.Players.FSM
             
             if (movementKey.magnitude < INPUT_DEADZONE)
             {
-                _player.ChangeState(PlayerState.IDLE, transitionDuration: 0.1f); //IDLE상태로 전환한다.
+                _player.ChangeState(PlayerState.IDLE, transitionDuration: 0.1f); 
                 return;
             }
         }
