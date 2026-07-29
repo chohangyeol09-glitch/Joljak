@@ -19,6 +19,8 @@ namespace Boss.Movement
 
         public float CurrentSpeed => agent.velocity.magnitude;
 
+        public Vector3 Velocity => agent.velocity;
+
         public bool HasReachedDestination =>
             !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
 

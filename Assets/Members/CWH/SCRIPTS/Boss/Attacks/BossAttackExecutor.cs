@@ -9,6 +9,8 @@ namespace Boss.Attacks
         private IBossAttack currentAttack;
         private IBossAnimator animator;
 
+        public bool IsAttacking => currentAttack != null;
+
         private void Awake()
         {
             attacks = GetComponents<IBossAttack>();

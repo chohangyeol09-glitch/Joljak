@@ -7,6 +7,8 @@ namespace Boss.Attacks
 {
     public class Missile : MonoBehaviour
     {
+        [SerializeField] private ParticleSystem boomParticle;
+        
         [SerializeField] private float launchForwardDistance = 2f;
         [SerializeField] private float launchPhaseDuration = 0.25f;
         [SerializeField] private float apexHeight = 6f;
@@ -79,6 +81,13 @@ namespace Boss.Attacks
             }
 
             onImpact?.Invoke();
+            if (boomParticle != null)
+            {
+                boomParticle.transform.SetParent(null, true);
+                boomParticle.Play();
+                Destroy(boomParticle.gameObject, boomParticle.main.duration + boomParticle.main.startLifetime.constantMax);
+            }
+            
             Destroy(gameObject);
         }
 
