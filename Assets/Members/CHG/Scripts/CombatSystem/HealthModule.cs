@@ -5,32 +5,39 @@ using UnityEngine;
 
 namespace CHG.Scripts.CombatSystem
 {
-    public class HealthModule : MonoBehaviour, IModule
+    public class HealthModule : MonoBehaviour, IModule, IAfterInitModule
     {
+        private const float VitalScale = 5f;
+        private const float VitalSoftCap = 0.01f;
+
         public event Action OnDeath;
-        
+
         [SerializeField] private StatSO healthStat;
-        [SerializeField] private float baseMaxHealth;
-        [SerializeField] private float maxHealth;
-        [SerializeField] private float currentHealth;
+        [SerializeField] private int baseMaxHealth;
+        [SerializeField] private int maxHealth;
+        [SerializeField] private int currentHealth;
 
         private ModuleOwner _owner;
-        private IStatModule _statModule;        
+        private IStatModule _statModule;
+
+        public int CurrentHealth => currentHealth;
+        public int MaxHealth => maxHealth;
+
         public void Initialize(ModuleOwner owner)
         {
             _owner = owner;
             currentHealth = maxHealth;
+            _statModule = owner.GetModule<IStatModule>();
+            
+            Debug.Assert(_statModule != null, $"statModule is null : {gameObject.name}");
         }
 
         public void AfterInit()
         {
-            if (_statModule != null)
-            {
-                float vital = _statModule.SubscribeStat(healthStat.AssetIndex, HandleVitalChange, healthStat.BaseValue);
+            if (_statModule == null) return;
 
-                float k = 0.01f;
-                currentHealth = maxHealth = baseMaxHealth + 5 * vital / (1 + k * vital);
-            }
+            float vital = _statModule.SubscribeStat(healthStat.AssetIndex, HandleVitalChange, healthStat.BaseValue);
+            currentHealth = maxHealth = CalculateMaxHealth(vital);
         }
 
         private void OnDestroy()
@@ -40,14 +47,17 @@ namespace CHG.Scripts.CombatSystem
 
         private void HandleVitalChange(StatSO stat, float currentValue, float prevValue)
         {
-            float k = 0.01f;
-            float beforeMaxHealth = maxHealth;
-            maxHealth = baseMaxHealth + 5 * currentValue;
-            float delta = maxHealth - beforeMaxHealth / (1 + k * currentValue);
+            int prevMaxHealth = maxHealth;
+            maxHealth = CalculateMaxHealth(currentValue);
+
+            int delta = maxHealth - prevMaxHealth;
             currentHealth = Mathf.Clamp(currentHealth + delta, 1, maxHealth);
         }
 
-        public void ApplyDamage(float damageAmount)
+        private int CalculateMaxHealth(float vital)
+            => baseMaxHealth + Mathf.RoundToInt(VitalScale * vital / (1f + VitalSoftCap * vital));
+
+        public void ApplyDamage(int damageAmount)
         {
             currentHealth -= damageAmount;
             if (currentHealth <= 0)

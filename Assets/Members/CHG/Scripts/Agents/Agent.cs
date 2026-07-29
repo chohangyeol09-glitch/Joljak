@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace CHG.Scripts.Agents
 {
-    public abstract class Agent : ModuleOwner
+    public abstract class Agent : ModuleOwner, IDamageable
     {
         public bool IsDead { get; protected set; }
         public UnityEvent OnHit;

@@ -2,9 +2,11 @@
 {
     public interface IWeapon
     {
-        WeaponData Data { get; }
+        WeaponDisplayInfo Display { get; }
+        int Damage { get; }
+        float FireRate { get; }
         bool CanFire { get; }
-        void OnStartFire();
-        void OnStopFire();
+        void StartFire();
+        void StopFire();
     }
 }

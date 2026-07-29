@@ -37,11 +37,12 @@ namespace CHG.Scripts.Players
         protected override void AfterInitializeModules()
         {
             base.AfterInitializeModules();
-            PlayerInput.OnJumpKeyDown += HandleJump;
 
+            PlayerInput.OnJumpKeyDown += HandleJump;
             PlayerInput.OnAttackKeyDown += HandleAttackStart;
             PlayerInput.OnAttackKeyUp += HandleAttackEnd;
             PlayerInput.OnDashKeyDown += HandleDash;
+            PlayerInput.OnReloadKeyDown += HandleReload;
             _constraint.OnConstraintAdded += HandleConstraintAdded;
             _constraint.OnConstraintRemoved += HandleConstraintRemoved;
         }
@@ -52,9 +53,12 @@ namespace CHG.Scripts.Players
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            
             PlayerInput.OnJumpKeyDown -= HandleJump;
             PlayerInput.OnAttackKeyDown -= HandleAttackStart;
             PlayerInput.OnAttackKeyUp -= HandleAttackEnd;
+            PlayerInput.OnDashKeyDown -= HandleDash;
+            PlayerInput.OnReloadKeyDown -= HandleReload;
             _constraint.OnConstraintAdded -= HandleConstraintAdded;
             _constraint.OnConstraintRemoved -= HandleConstraintRemoved;
         }
@@ -64,12 +68,12 @@ namespace CHG.Scripts.Players
         private void HandleAttackStart()
         {
             _aimModule.RequestAim(this);
-            _weapon.OnStartFire();
+            _weapon.StartFire();
         }
         private void HandleAttackEnd()
         {
             _aimModule.ReleaseAim(this);
-            _weapon.OnStopFire();
+            _weapon.StopFire();
         }
 
         private void Start()
@@ -109,6 +113,11 @@ namespace CHG.Scripts.Players
 
             bool hasInput = PlayerInput.CurrentMovement.magnitude > 0.1f;
             ChangeState(hasInput ? PlayerState.RUN : PlayerState.IDLE, 0.1f);
+        }
+        
+        private void HandleReload()
+        {
+            
         }
         
         protected override void HandleHit()

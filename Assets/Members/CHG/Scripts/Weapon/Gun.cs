@@ -1,4 +1,5 @@
-﻿using CHG.Scripts.Agents;
+﻿using System;
+using CHG.Scripts.Agents;
 using CHG.Scripts.CoreSystem.AnimationSystem;
 using CHG.Scripts.CoreSystem.ModuleSystem;
 using DevLib.ObjectPool.Runtime;
@@ -8,17 +9,21 @@ namespace CHG.Scripts.Weapon
 {
     public class Gun : MonoBehaviour, IWeapon, IReloadable, IModule
     {
-        [Header("Weapon")]
-        [field: SerializeField] public WeaponData Data { get; private set; }
+        [Header("Weapon")] 
+        [SerializeField] private WeaponData Data;
+        
         public bool CanFire => !IsReloading
                                && CurrentAmmo > 0
-                               && !_constraint.Has(ConstraintType.Disarmed);
+                               && !_constraint.Has(ConstraintType.Disarmed)
+                               && Time.time >= _nextFireTime;
         
-        [Header("Reload")]
-        [field: SerializeField] public int CurrentAmmo { get; private set; }
-        [field: SerializeField] public int MaxAmmo { get; private set; }
+        [SerializeField] private int currentAmmo;
+
         public bool IsReloading { get; private set; }
-        [field: SerializeField] public float ReloadTime { get; private set; }
+        public float ReloadProgress { get; private set; }
+
+        public event Action OnReloadStarted;
+        public event Action OnReloadEnded;
 
         [Header("Fire")] 
         [SerializeField] private Transform muzzle;
@@ -29,21 +34,29 @@ namespace CHG.Scripts.Weapon
         [SerializeField] private AnimParamSO attackParam;
         [SerializeField] private AnimParamSO upperIdleParam;
         [SerializeField] private int upperBodyLayer = 1;
-        
+
+        private ModuleOwner _owner;
         private IRenderer _renderer;
         private IAimModule _aim;
         private ConstraintModule _constraint;
         private bool _isFiring;
         private float _nextFireTime;
+
+        public WeaponDisplayInfo Display => Data.Display;
+        public int Damage => Data.Damage;
+        public float FireRate => Data.FireRate;
+        public int MaxAmmo => Data.MaxAmmo;
+        public int CurrentAmmo => currentAmmo;
+        public float ReloadTime => Data.ReloadTime;
+        
         
         public void Initialize(ModuleOwner owner)
         {
+            _owner = owner;
             _aim = owner.GetModule<IAimModule>();
             _renderer = owner.GetModule<IRenderer>();
             
-            MaxAmmo = Data.MaxAmmo;
-            ReloadTime = Data.ReloadTime;
-            CurrentAmmo = MaxAmmo;   
+            currentAmmo = MaxAmmo;   
             _constraint = owner.GetModule<ConstraintModule>();
             
             Debug.Assert(_constraint != null, $"ConstraintModule is null : {gameObject.name}");
@@ -51,13 +64,14 @@ namespace CHG.Scripts.Weapon
             Debug.Assert(_aim != null, $"AimModule is null : {gameObject.name}");
         }
         
-        public void OnStartFire()
+        public void StartFire()
         {
+            if (!CanFire) return;
             _isFiring = true;    
             _renderer.Animator.SetBool("FIRING", _isFiring);
         }
 
-        public void OnStopFire()
+        public void StopFire()
         {
             _isFiring = false;
             _renderer.Animator.SetBool("FIRING", _isFiring);
@@ -66,7 +80,7 @@ namespace CHG.Scripts.Weapon
 
         private void Update()
         {
-            if (!_isFiring || Time.time < _nextFireTime || !CanFire) return;
+            if (!_isFiring || !CanFire) return;
 
             Fire();
             _nextFireTime = Time.time + 1f / Data.FireRate;
@@ -81,15 +95,20 @@ namespace CHG.Scripts.Weapon
             Vector3 dir = (target - muzzle.position).normalized;
             
             Bullet bullet = poolManager.Pop<Bullet>(bulletItem);
-            bullet.Launch(muzzle.position, dir);
+            bullet.Launch(muzzle.position, dir, Damage, _owner);
             
-            CurrentAmmo--;
+            currentAmmo--;
             _renderer.PlayClip(attackParam.ParamHash, 0f,0.02f, upperBodyLayer);
         }
 
         public void Reload()
         {
-            
+            //TODO: 재장전 구현
+        }
+
+        public void CancelReload()
+        {
+            //TODO: 재장전 취소 구현
         }
     }
 }

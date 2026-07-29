@@ -19,11 +19,11 @@ namespace CHG.Scripts.Players
 
             if (!TryGetStat(strStat.AssetIndex, out strStat))
                 Debug.LogError($"플레이어에 힘 스탯이 없습니다.");
-            if (!TryGetStat(strStat.AssetIndex, out intStat))
+            if (!TryGetStat(intStat.AssetIndex, out intStat))
                 Debug.LogError($"플레이어에 지능 스탯이 없습니다.");
-            if (!TryGetStat(strStat.AssetIndex, out criStat))
+            if (!TryGetStat(criStat.AssetIndex, out criStat))
                 Debug.LogError($"플레이어에 크리티컬 스탯이 없습니다.");
-            if (!TryGetStat(strStat.AssetIndex, out cDmgStat))
+            if (!TryGetStat(cDmgStat.AssetIndex, out cDmgStat))
                 Debug.LogError($"플레이어에 크리티컬 증뎀 스탯이 없습니다.");
         }
 
@@ -43,7 +43,7 @@ namespace CHG.Scripts.Players
                 damagee *= cDmgStat.Value;
             }
 
-            return new DamageData(damagee, Vector3.zero,Vector3.zero, _owner, isCritical);
+            return new DamageData(Mathf.RoundToInt(damagee), Vector3.zero,Vector3.zero, _owner, isCritical);
         }
     }
 }

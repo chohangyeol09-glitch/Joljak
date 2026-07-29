@@ -1,11 +1,14 @@
-﻿namespace CHG.Scripts.Weapon
+﻿using System;
+
+namespace CHG.Scripts.Weapon
 {
     public interface IReloadable
     {
-        int CurrentAmmo { get; }
-        int MaxAmmo { get; }
         bool IsReloading { get; }
-        float ReloadTime { get; }
+        float ReloadProgress { get; }
         void Reload();
+        void CancelReload();
+        event Action OnReloadStarted;
+        event Action OnReloadEnded;
     }
 }
