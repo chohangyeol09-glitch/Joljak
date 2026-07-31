@@ -17,6 +17,7 @@ namespace CHG.Scripts.Players
         private IControlMovement _controlMovement;
         private IAimModule _aimModule;
         private IWeapon _weapon;
+        private IReloadable _reloadable;
         private ConstraintModule _constraint;
 
         protected override void InitializeModules()
@@ -26,6 +27,7 @@ namespace CHG.Scripts.Players
             _controlMovement = GetModule<IControlMovement>();
             _aimModule = GetModule<IAimModule>();
             _weapon = GetModule<IWeapon>();
+            _reloadable = _weapon as IReloadable;
             _constraint = GetModule<ConstraintModule>();
             
             Debug.Assert(_controlMovement != null, $"ControlMovement is null : {gameObject.name}");
@@ -117,7 +119,7 @@ namespace CHG.Scripts.Players
         
         private void HandleReload()
         {
-            
+            _reloadable?.Reload();
         }
         
         protected override void HandleHit()

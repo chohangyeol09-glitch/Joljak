@@ -10,6 +10,7 @@ namespace CHG.Scripts.CombatSystem
         private const float VitalScale = 5f;
         private const float VitalSoftCap = 0.01f;
 
+        public event Action<int, int> OnHealthChanged; // current, max
         public event Action OnDeath;
 
         [SerializeField] private StatSO healthStat;
@@ -22,6 +23,7 @@ namespace CHG.Scripts.CombatSystem
 
         public int CurrentHealth => currentHealth;
         public int MaxHealth => maxHealth;
+        public bool IsDead => currentHealth <= 0;
 
         public void Initialize(ModuleOwner owner)
         {
@@ -36,8 +38,12 @@ namespace CHG.Scripts.CombatSystem
         {
             if (_statModule == null) return;
 
-            float vital = _statModule.SubscribeStat(healthStat.AssetIndex, HandleVitalChange, healthStat.BaseValue);
+            float vital = _statModule.SubscribeStat(healthStat.AssetIndex, HandleVitalChange, healthStat.BaseValue);    
+            
+            maxHealth = Mathf.Max(1, CalculateMaxHealth(vital));
             currentHealth = maxHealth = CalculateMaxHealth(vital);
+            
+            RaiseHealthChange();
         }
 
         private void OnDestroy()
@@ -50,8 +56,13 @@ namespace CHG.Scripts.CombatSystem
             int prevMaxHealth = maxHealth;
             maxHealth = CalculateMaxHealth(currentValue);
 
-            int delta = maxHealth - prevMaxHealth;
-            currentHealth = Mathf.Clamp(currentHealth + delta, 1, maxHealth);
+            if (!IsDead)
+            {
+                int delta = maxHealth - prevMaxHealth;
+                currentHealth = Mathf.Clamp(currentHealth + delta, 1, maxHealth);
+            }
+
+            RaiseHealthChange();
         }
 
         private int CalculateMaxHealth(float vital)
@@ -59,12 +70,16 @@ namespace CHG.Scripts.CombatSystem
 
         public void ApplyDamage(int damageAmount)
         {
-            currentHealth -= damageAmount;
-            if (currentHealth <= 0)
-            {
-                currentHealth = 0;
+            if (IsDead) return;
+
+            currentHealth = Mathf.Max(0, currentHealth - damageAmount);
+
+            RaiseHealthChange();
+
+            if (IsDead)
                 OnDeath?.Invoke();
-            }
         }
+        
+        private void RaiseHealthChange() => OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }

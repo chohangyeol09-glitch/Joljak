@@ -20,6 +20,14 @@ namespace CHG.Scripts.Agents.StatSystem
                 s => s.StatData.AssetIndex, s => s.CloneStat());
         }
         
+        protected virtual void OnDestroy()
+        {
+            if (_statDict == null) return;
+            foreach (StatSO stat in _statDict.Values)
+                Destroy(stat);
+            _statDict.Clear();
+        }
+        
         public StatSO GetStat(int statIndex) => _statDict.GetValueOrDefault(statIndex);
         
         public bool TryGetStat(int statIndex, out StatSO outStat)

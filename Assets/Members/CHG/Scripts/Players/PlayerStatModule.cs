@@ -18,7 +18,7 @@ namespace CHG.Scripts.Players
             base.Initialize(owner);
 
             if (!TryGetStat(strStat.AssetIndex, out strStat))
-                Debug.LogError($"플레이어에 힘 스탯이 없습니다.");
+                Debug.LogError($"플레이어에 힘 스탯이 없습니다."); 
             if (!TryGetStat(intStat.AssetIndex, out intStat))
                 Debug.LogError($"플레이어에 지능 스탯이 없습니다.");
             if (!TryGetStat(criStat.AssetIndex, out criStat))

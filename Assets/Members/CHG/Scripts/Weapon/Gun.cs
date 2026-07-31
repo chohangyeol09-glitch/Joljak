@@ -22,7 +22,8 @@ namespace CHG.Scripts.Weapon
         public bool IsReloading { get; private set; }
         public float ReloadProgress { get; private set; }
 
-        public event Action OnReloadStarted;
+        public event Action<int, int> OnAmmoChanged;
+        public event Action<float> OnReloadStarted;
         public event Action OnReloadEnded;
 
         [Header("Fire")] 
@@ -41,6 +42,7 @@ namespace CHG.Scripts.Weapon
         private ConstraintModule _constraint;
         private bool _isFiring;
         private float _nextFireTime;
+        private float _reloadEndTime;
 
         public WeaponDisplayInfo Display => Data.Display;
         public int Damage => Data.Damage;
@@ -66,7 +68,6 @@ namespace CHG.Scripts.Weapon
         
         public void StartFire()
         {
-            if (!CanFire) return;
             _isFiring = true;    
             _renderer.Animator.SetBool("FIRING", _isFiring);
         }
@@ -80,6 +81,14 @@ namespace CHG.Scripts.Weapon
 
         private void Update()
         {
+            if (IsReloading)
+            {
+                ReloadProgress = 1f - (_reloadEndTime - Time.time) / ReloadTime;
+                if (Time.time >= _reloadEndTime)
+                    CompleteReload();
+                return;
+            }
+            
             if (!_isFiring || !CanFire) return;
 
             Fire();
@@ -98,17 +107,41 @@ namespace CHG.Scripts.Weapon
             bullet.Launch(muzzle.position, dir, Damage, _owner);
             
             currentAmmo--;
+            RaiseAmmoChanged();
             _renderer.PlayClip(attackParam.ParamHash, 0f,0.02f, upperBodyLayer);
         }
 
         public void Reload()
         {
-            //TODO: 재장전 구현
+            if (IsReloading) return;
+            
+            IsReloading = true;
+            ReloadProgress = 0f;
+            _reloadEndTime = Time.time + ReloadTime;
+            
+            OnReloadStarted?.Invoke(ReloadTime);
         }
 
         public void CancelReload()
         {
-            //TODO: 재장전 취소 구현
+            if (!IsReloading) return;
+            
+            IsReloading = false;
+            ReloadProgress = 0f;
+            
+            OnReloadEnded?.Invoke();
         }
+
+        private void CompleteReload()
+        {
+            IsReloading = false;
+            ReloadProgress = 0f;
+            currentAmmo = MaxAmmo;
+            
+            RaiseAmmoChanged();
+            OnReloadEnded?.Invoke();
+        }
+        
+        private void RaiseAmmoChanged() => OnAmmoChanged?.Invoke(currentAmmo, MaxAmmo);
     }
 }

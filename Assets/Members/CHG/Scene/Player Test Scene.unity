@@ -694,10 +694,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerStat
       objectReference: {fileID: 0}
-    - target: {fileID: 470322789768075633, guid: 05ff02e62b79cee4d84853a2d2c8c572, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 5697121035321024356, guid: 05ff02e62b79cee4d84853a2d2c8c572, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.6152786
@@ -837,10 +833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c2fd012b0b412cb3af19f53c4c6aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.Weapon.Gun
-  <Data>k__BackingField: {fileID: 11400000, guid: 8375dd659e2ac734f8a0dac69564ee20, type: 2}
-  <CurrentAmmo>k__BackingField: 1
-  <MaxAmmo>k__BackingField: 10
-  <ReloadTime>k__BackingField: 0.2
+  Data: {fileID: 0}
+  currentAmmo: 0
   muzzle: {fileID: 376320646}
   poolManager: {fileID: 11400000, guid: c27dcddfe50702d47adeb8916c8a459a, type: 2}
   bulletItem: {fileID: 11400000, guid: 89473eb4ccda4804089a63abc48f8736, type: 2}
