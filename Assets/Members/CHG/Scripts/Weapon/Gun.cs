@@ -13,7 +13,6 @@ namespace CHG.Scripts.Weapon
         [SerializeField] private WeaponData Data;
         
         public bool CanFire => !IsReloading
-                               && CurrentAmmo > 0
                                && !_constraint.Has(ConstraintType.Disarmed)
                                && Time.time >= _nextFireTime;
         
@@ -90,6 +89,12 @@ namespace CHG.Scripts.Weapon
             }
             
             if (!_isFiring || !CanFire) return;
+
+            if (currentAmmo <= 0)
+            {
+                Reload();
+                return;
+            }
 
             Fire();
             _nextFireTime = Time.time + 1f / Data.FireRate;

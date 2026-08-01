@@ -16,6 +16,12 @@ namespace CHG.Scripts.UI
             var intGroup = new ConverterGroup("Int to String");
             intGroup.AddConverter((ref int value) => value.ToString());
             ConverterGroups.RegisterConverterGroup(intGroup);
+
+            // true 면 보이고 false 면 숨긴다. style.display 바인딩용.
+            var displayGroup = new ConverterGroup("Bool to Display");
+            displayGroup.AddConverter((ref bool visible) =>
+                new StyleEnum<DisplayStyle>(visible ? DisplayStyle.Flex : DisplayStyle.None));
+            ConverterGroups.RegisterConverterGroup(displayGroup);
         }
     }
 }

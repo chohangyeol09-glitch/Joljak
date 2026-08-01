@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Members/CHG/Scripts/UI/Views/AmmoView.uss?fileID=7433441132597879392&amp;guid=df2d058f2fe14964491f3eb0b68b6d94&amp;type=3#AmmoView"/>
+    <ui:VisualElement name="ammo-hud" picking-mode="Ignore" class="ammo-hud" style="background-color: rgba(0, 0, 0, 0.73);">
+        <ui:VisualElement name="ammo-icon" picking-mode="Ignore" class="ammo-icon">
+            <ui:Image name="ammo-icon-bg" picking-mode="Ignore" tint-color="rgba(150, 150, 160, 0.35)" source="project://database/Assets/Members/CHG/Graphics/UIAsset/CleanFlatIcon/png_128/icon/icon_game/icon_game_143.png?fileID=2800000&amp;guid=cec5633531d8912428694432b63c83ea&amp;type=3#icon_game_143" class="ammo-icon__img"/>
+            <ui:VisualElement name="ammo-icon-clip" picking-mode="Ignore" class="ammo-icon__clip">
+                <Bindings>
+                    <ui:DataBinding property="style.width" data-source-path="normalized" binding-mode="ToTarget" converter-group="Float to StyleLength Percent" source-to-ui-converters="Float to StyleLength Percent"/>
+                </Bindings>
+                <ui:Image name="ammo-icon-fill" picking-mode="Ignore" tint-color="rgb(255, 255, 255)" source="project://database/Assets/Members/CHG/Graphics/UIAsset/CleanFlatIcon/png_128/icon/icon_game/icon_game_143.png?fileID=2800000&amp;guid=cec5633531d8912428694432b63c83ea&amp;type=3#icon_game_143" class="ammo-icon__img"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label name="ammo-current" picking-mode="Ignore" text="100" class="ammo__count">
+            <Bindings>
+                <ui:DataBinding property="text" data-source-path="current" binding-mode="ToTarget" converter-group="Int to String"/>
+            </Bindings>
+        </ui:Label>
+        <ui:Label text="/" picking-mode="Ignore" name="slash" class="ammo__sep" style="font-size: 30px;"/>
+        <ui:Label name="ammo-max" picking-mode="Ignore" text="100" class="ammo__count ammo__count--max" style="font-size: 30px;">
+            <Bindings>
+                <ui:DataBinding property="text" data-source-path="max" binding-mode="ToTarget" converter-group="Int to String"/>
+            </Bindings>
+        </ui:Label>
+        <ui:VisualElement name="ammo-reload-track" picking-mode="Ignore" class="ammo-reload-track">
+            <Bindings>
+                <ui:DataBinding property="style.display" data-source-path="isReloading" binding-mode="ToTarget" converter-group="Bool to Display" source-to-ui-converters="Bool to Display"/>
+            </Bindings>
+            <ui:VisualElement name="ammo-reload-fill" picking-mode="Ignore" class="ammo-reload-fill"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

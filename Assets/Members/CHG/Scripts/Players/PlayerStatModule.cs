@@ -29,7 +29,7 @@ namespace CHG.Scripts.Players
 
         public override DamageData CalculateDamage(SkillDataSO skillData)
         {
-            float damagee = skillData.damageType switch
+            float damage = skillData.damageType switch
             {
                 SkillDamageType.Physical => (strStat.Value + skillData.baseDamage) * skillData.damageMultiplier,
                 SkillDamageType.Magical => (intStat.Value + skillData.baseDamage) * skillData.damageMultiplier,
@@ -40,10 +40,10 @@ namespace CHG.Scripts.Players
 
             if (isCritical)
             {
-                damagee *= cDmgStat.Value;
+                damage *= cDmgStat.Value;
             }
 
-            return new DamageData(Mathf.RoundToInt(damagee), Vector3.zero,Vector3.zero, _owner, isCritical);
+            return new DamageData(Mathf.RoundToInt(damage), Vector3.zero,Vector3.zero, _owner, isCritical);
         }
     }
 }

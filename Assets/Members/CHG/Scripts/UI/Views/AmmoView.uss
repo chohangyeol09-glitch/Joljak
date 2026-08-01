@@ -1,0 +1,105 @@
+/* 위치는 PlayerHud.uxml 의 .hud-column 이 정한다. 여기서는 크기와 모양만 다룬다. */
+.ammo-hud {
+    flex-direction: row;
+    align-items: flex-end;
+    padding-top: 6px;
+    padding-right: 14px;
+    padding-bottom: 16px; /* 아래쪽 재장전 게이지가 들어갈 자리 */
+    padding-left: 14px;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- 탄약 아이콘 게이지 ----------
+   구조:
+     .ammo-icon              고정 크기 상자 (기준점)
+      ├─ #ammo-icon-bg       뒤. 항상 꽉 찬 어두운 이미지
+      └─ #ammo-icon-clip     앞. width 가 normalized 로 바인딩되고 overflow:hidden 으로 잘라낸다
+          └─ #ammo-icon-fill 밝은 이미지. 크기가 고정이라 찌그러지지 않고 잘리기만 한다
+------------------------------------------ */
+
+/* 상자 비율을 원본 PNG 비율과 반드시 맞춘다.
+   ui:Image 의 기본 scale-mode 는 ScaleToFit 이라, 비율이 다르면 이미지가
+   상자 안에서 가운데 정렬되며 양옆에 빈 공간이 생긴다.
+   그러면 게이지가 빈 공간부터 깎여서 앞부분이 먹통이 된다.
+   png_128 아이콘은 정사각형이므로 상자도 정사각형으로 둔다. */
+.ammo-icon {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0; /* 옆의 숫자 때문에 눌리지 않게 */
+    margin-right: 10px;
+    margin-bottom: 2px;
+}
+
+/* 두 이미지 공통. absolute + 고정 크기가 핵심.
+   flex 흐름에서 빠지므로 부모(clip)가 줄어도 이미지는 원래 크기를 유지한다. */
+.ammo-icon__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 54px;
+    height: 54px;
+}
+
+/* 잘라내는 덮개. width 는 DataBinding 이 주입한다 */
+.ammo-icon__clip {
+    position: absolute;
+    top: 0;
+    left: 0; /* 왼쪽 고정 → 오른쪽부터 사라진다 */
+    height: 100%;
+    width: 100%; /* 초기값. 바인딩이 덮어쓴다 */
+    overflow: hidden; /* ← 이게 없으면 안 잘린다 */
+}
+
+/* ---------- 재장전 게이지 ----------
+   패널 아래쪽에 깔리는 얇은 바.
+     표시 여부 : isReloading 바인딩 (Bool to Display 컨버터)
+     채워지는 것 : PlayerHudModule 의 experimental.animation
+   재장전 시간이 무기마다 다르므로 애니메이션 길이는 코드에서 준다. */
+
+.ammo-reload-track {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 5px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    overflow: hidden; /* fill 이 밖으로 안 나가게 */
+    display: none; /* 기본은 숨김. 바인딩이 재장전 중에만 켠다 */
+}
+
+.ammo-reload-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0; /* 애니메이션이 0 → 100% 로 채운다 */
+    background-color: rgb(255, 205, 80);
+}
+
+/* ---------- 숫자 ---------- */
+
+.ammo__count {
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    -unity-font-style: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.ammo__count--max {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 3px;
+}
+
+.ammo__sep {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    -unity-font-style: bold;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 2px;
+}

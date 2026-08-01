@@ -119,6 +119,77 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &117622354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 117622355}
+  - component: {fileID: 117622357}
+  - component: {fileID: 117622356}
+  m_Layer: 6
+  m_Name: PlayerHudModule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &117622355
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117622354}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4241227219163996}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &117622356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117622354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: 27be830b2f16a8a46a040502859c5728, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 56722fe3ff2274d439e1e6746288dc33, type: 3}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!114 &117622357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117622354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e89806c62c04533934dc7474cbf40e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CHG.Scripts.UI.PlayerHudModule
+  uiDocument: {fileID: 117622356}
+  healthViewModel: {fileID: 11400000, guid: 779360b8d40906b4ebaa5c749858de61, type: 2}
+  ammoViewModelAsset: {fileID: 11400000, guid: 9e389b246576893409a798160569f1e0, type: 2}
 --- !u!1 &376320645
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +220,52 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4426942376662974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &393062669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 393062671}
+  - component: {fileID: 393062670}
+  m_Layer: 0
+  m_Name: TestScripts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &393062670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393062669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8366060f7c3a0354b8765e27cbc03481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TestTakeDamage
+  healthModule: {fileID: 1613759129}
+  damageAmount: 10
+--- !u!4 &393062671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393062669}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.77072, y: 4.21815, z: -3.63541}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &411674415
 GameObject:
@@ -833,7 +950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c2fd012b0b412cb3af19f53c4c6aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.Weapon.Gun
-  Data: {fileID: 0}
+  Data: {fileID: 11400000, guid: 8375dd659e2ac734f8a0dac69564ee20, type: 2}
   currentAmmo: 0
   muzzle: {fileID: 376320646}
   poolManager: {fileID: 11400000, guid: c27dcddfe50702d47adeb8916c8a459a, type: 2}
@@ -1364,6 +1481,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1613759129 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 731859134132192633, guid: b153e9b0530506b4f8dbbf4a53005cfe, type: 3}
+  m_PrefabInstance: {fileID: 596599689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e6b2c9bba44c659978900e3798295b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Members.CHG.Scripts.CombatSystem.HealthModule
 --- !u!4 &1730739757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2951588214792680213, guid: 5592dd01fd86b0949852cc928dab0523, type: 3}
@@ -2358,6 +2486,7 @@ Transform:
   - {fileID: 975015004}
   - {fileID: 1182674338}
   - {fileID: 1730739757}
+  - {fileID: 117622355}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &4241227219163997
@@ -27214,3 +27343,4 @@ SceneRoots:
   - {fileID: 1594037342}
   - {fileID: 4241227219163996}
   - {fileID: 1067897168}
+  - {fileID: 393062671}
