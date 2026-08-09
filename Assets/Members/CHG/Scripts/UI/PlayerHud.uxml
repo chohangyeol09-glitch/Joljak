@@ -3,6 +3,7 @@
 
     <ui:Template src="Views/HealthView.uxml" name="HealthView" />
     <ui:Template src="Views/AmmoView.uxml" name="AmmoView" />
+    <ui:Template src="Views/SkillView.uxml" name="SkillView" />
 
     <!-- UIDocument 에 꽂는 파일은 이것 하나다.
          Instance 에는 name 을 주지 않는다. 패널 이름은 각 템플릿의 루트가 갖는다
@@ -18,8 +19,7 @@
 
         <ui:VisualElement name="hud-bottom-right" picking-mode="Ignore" class="hud-column hud-column--right">
             <ui:Instance template="AmmoView" class="hud-column__item" picking-mode="Ignore" />
-            <!-- 스킬 패널은 이 아래에 추가한다. 그러면 스킬이 맨 아래, 탄약이 그 위가 된다.
-                 <ui:Instance template="SkillView" class="hud-column__item" picking-mode="Ignore" /> -->
+            <ui:Instance template="SkillView" class="hud-column__item" picking-mode="Ignore" />
         </ui:VisualElement>
 
     </ui:VisualElement>

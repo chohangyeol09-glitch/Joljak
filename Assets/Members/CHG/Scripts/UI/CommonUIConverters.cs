@@ -22,6 +22,11 @@ namespace CHG.Scripts.UI
             displayGroup.AddConverter((ref bool visible) =>
                 new StyleEnum<DisplayStyle>(visible ? DisplayStyle.Flex : DisplayStyle.None));
             ConverterGroups.RegisterConverterGroup(displayGroup);
+
+            // Sprite 를 style.backgroundImage 에 꽂기 위한 변환.
+            var backgroundGroup = new ConverterGroup("Sprite to Background");
+            backgroundGroup.AddConverter((ref Sprite sprite) => new StyleBackground(sprite));
+            ConverterGroups.RegisterConverterGroup(backgroundGroup);
         }
     }
 }

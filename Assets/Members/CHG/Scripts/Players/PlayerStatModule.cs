@@ -1,6 +1,8 @@
 ﻿using CHG.Scripts.Agents.StatSystem;
 using CHG.Scripts.CombatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using CHG.Scripts.SkillSystem;
+using CHG.Scripts.Weapon.WeaponSO;
+using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.Players
@@ -27,23 +29,20 @@ namespace CHG.Scripts.Players
                 Debug.LogError($"플레이어에 크리티컬 증뎀 스탯이 없습니다.");
         }
 
-        public override DamageData CalculateDamage(SkillDataSO skillData)
+        public override DamageData CalculateDamage(DamageSource source)
         {
-            float damage = skillData.damageType switch
+            float damage = source.DamageType switch
             {
-                SkillDamageType.Physical => (strStat.Value + skillData.baseDamage) * skillData.damageMultiplier,
-                SkillDamageType.Magical => (intStat.Value + skillData.baseDamage) * skillData.damageMultiplier,
-                _ => skillData.baseDamage
+                DamageType.Physical => (strStat.Value + source.BaseDamage) * source.Multiplier,
+                DamageType.Magical => (intStat.Value + source.BaseDamage) * source.Multiplier,
+                _ => source.BaseDamage
             };
-            
+
             bool isCritical = Random.value < criStat.Value;
-
-            if (isCritical)
-            {
-                damage *= cDmgStat.Value;
-            }
-
-            return new DamageData(Mathf.RoundToInt(damage), Vector3.zero,Vector3.zero, _owner, isCritical);
+            if (isCritical) 
+                damage *= criStat.Value;
+            
+            return new DamageData(Mathf.RoundToInt(damage), Vector3.zero, Vector3.zero, _owner, isCritical);
         }
     }
 }

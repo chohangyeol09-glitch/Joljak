@@ -1,4 +1,4 @@
-﻿using CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.Agents
@@ -16,7 +16,7 @@ namespace CHG.Scripts.Agents
 
         public void PlayClip(int clipHash, float normalizedTime, float crossFadeDuration, int layerIndex = 0)
         {
-            Animator.CrossFadeInFixedTime(clipHash, crossFadeDuration, layerIndex, normalizedTime);
+             Animator.CrossFadeInFixedTime(clipHash, crossFadeDuration, layerIndex, normalizedTime);
         }
     }
 }

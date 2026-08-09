@@ -11,6 +11,8 @@ namespace DefaultNamespace
         public event Action<Vector2> OnLookChange;
         public event Action OnAttackKeyDown;
         public event Action OnAttackKeyUp;
+        public event Action OnAimKeyDown;
+        public event Action OnAimKeyUp;
         public event Action OnEventKeyDown;
         public event Action OnEventKeyUp;
         public event Action OnJumpKeyDown;
@@ -18,6 +20,8 @@ namespace DefaultNamespace
         public event Action OnDashKeyUp;
         public event Action OnReloadKeyDown;
         public event Action OnReloadKeyUp;
+        public event Action<int> OnSkillKeyDown;
+        public event Action<int> OnSkillKeyUp;
         
         private Controls _controls;
 
@@ -47,7 +51,6 @@ namespace DefaultNamespace
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            //필터가 없으면 started와 performed가 같은 프레임에 둘 다 와서 회전이 2배로 들어간다
             if (!context.performed) return;
 
             OnLookChange?.Invoke(context.ReadValue<Vector2>());
@@ -61,6 +64,15 @@ namespace DefaultNamespace
 
             if (context.canceled)
                 OnAttackKeyUp?.Invoke();
+        }
+
+        public void OnAim(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnAimKeyDown?.Invoke();
+            
+            if (context.canceled)
+                OnAimKeyUp?.Invoke();
         }
 
         public void OnInteract(InputAction.CallbackContext context)
@@ -95,6 +107,42 @@ namespace DefaultNamespace
             if (context.canceled)
                 OnReloadKeyUp?.Invoke();
                 
+        }
+
+        public void OnSkill1(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSkillKeyDown?.Invoke(0);
+            
+            if (context.canceled)
+                OnSkillKeyUp?.Invoke(0);
+        }
+
+        public void OnSkill2(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSkillKeyDown?.Invoke(1);
+            
+            if (context.canceled)
+                OnSkillKeyUp?.Invoke(1);
+        }
+
+        public void OnSkill3(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSkillKeyDown?.Invoke(2);
+            
+            if (context.canceled)
+                OnSkillKeyUp?.Invoke(2);
+        }
+
+        public void OnSkill4(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSkillKeyDown?.Invoke(3);
+            
+            if (context.canceled)
+                OnSkillKeyUp?.Invoke(3);
         }
     }
 }

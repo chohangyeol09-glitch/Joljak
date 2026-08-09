@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CHG.Scripts.CombatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using CHG.Scripts.SkillSystem;
+using CHG.Scripts.Weapon.WeaponSO;
+using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.Agents.StatSystem
@@ -72,6 +74,6 @@ namespace CHG.Scripts.Agents.StatSystem
             }
         }
 
-        public abstract DamageData CalculateDamage(SkillDataSO skillData);
+        public abstract DamageData CalculateDamage(DamageSource source);
     }
 }

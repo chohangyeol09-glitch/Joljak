@@ -1,1 +1,78 @@
-VisualElement {}
+.skill-hud {
+    flex-direction: row;
+}
+
+.skill-slot {
+    width: 64px;
+    height: 64px;
+
+    margin-left: 8px;
+
+    background-color: rgba(10, 10, 12, 0.72);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.28);
+    border-radius: 3px;
+
+    overflow: hidden; 
+}
+
+.skill-slot__icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.skill-slot__cooldown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0;
+    background-color: rgba(0, 0, 0, 0.66);
+}
+
+.skill-slot__cooldown-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -unity-text-align: middle-center;
+    font-size: 22px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.85);
+    margin: 0;
+    padding: 0;
+}
+
+.skill-slot__key {
+    position: absolute;
+    right: 4px;
+    bottom: 2px;
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 0.85);
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.9);
+    margin: 0;
+    padding: 0;
+}
+
+.skill-slot__charge {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0;
+    background-color: rgba(255, 214, 92, 0.55);
+    transition-property: background-color;
+    transition-duration: 0.12s;
+}
+
+.skill-slot__charge--full {
+    background-color: rgba(255, 96, 72, 0.8);
+}

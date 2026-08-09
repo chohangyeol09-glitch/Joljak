@@ -1,6 +1,6 @@
 ﻿using System;
 using CHG.Scripts.Agents.StatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.CombatSystem
@@ -40,8 +40,7 @@ namespace CHG.Scripts.CombatSystem
 
             float vital = _statModule.SubscribeStat(healthStat.AssetIndex, HandleVitalChange, healthStat.BaseValue);    
             
-            maxHealth = Mathf.Max(1, CalculateMaxHealth(vital));
-            currentHealth = maxHealth = CalculateMaxHealth(vital);
+            currentHealth = maxHealth = Mathf.Max(1, CalculateMaxHealth(vital));
             
             RaiseHealthChange();
         }
@@ -78,6 +77,14 @@ namespace CHG.Scripts.CombatSystem
 
             if (IsDead)
                 OnDeath?.Invoke();
+        }
+
+        public void Heal(int amount)
+        {
+            if (IsDead || amount <= 0) return;
+            
+            currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
+            RaiseHealthChange();
         }
         
         private void RaiseHealthChange() => OnHealthChanged?.Invoke(currentHealth, maxHealth);

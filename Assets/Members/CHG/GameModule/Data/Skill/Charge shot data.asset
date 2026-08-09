@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c053e72e7dae479382766223c253ac2e, type: 3}
+  m_Name: Charge shot data
+  m_EditorClassIdentifier: Assembly-CSharp::CHG.Scripts.SkillSystem.SkillDatas.ChargeShotDataSO
+  <AssetIndex>k__BackingField: 0
+  <AssetName>k__BackingField: "\uCC28\uC9C0 \uC29B"
+  SkillPrefab: {fileID: 5920371833087106032, guid: b33fdb785defdfb409322f974b9451dc, type: 3}
+  PointType: 1
+  Icon: {fileID: 21300000, guid: 195af71e5da6b7e40b6c22bd3993596d, type: 3}
+  Cooldown: 4
+  DamageType: 0
+  BaseDamage: 10
+  DamageMultiplier: 1
+  maxChargeTime: 1.5
+  minChargeTime: 0.5
+  maxChargeMultiplier: 2
+  minChargeMultiplier: 1
+  BulletItem: {fileID: 11400000, guid: b2a38c727daebd741afea273b5548c8b, type: 2}
+  ChargeAnim: {fileID: 11400000, guid: 0f298d0ce1edada4fb5446289d435cf3, type: 2}
+  FireAnim: {fileID: 11400000, guid: 0fb9f64587386ec47b759ab1f982dccb, type: 2}

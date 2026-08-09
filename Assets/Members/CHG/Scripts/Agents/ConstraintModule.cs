@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.Agents

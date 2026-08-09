@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using CHG.Scripts.CombatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using CHG.Scripts.SkillSystem;
+using DevLib.ModuleSystem;
 using CHG.Scripts.UI.ViewModels;
 using CHG.Scripts.Weapon;
 using UnityEngine;
@@ -13,22 +14,25 @@ namespace CHG.Scripts.UI
     {
         private const string HealthPanelName = "health-hud";
         private const string AmmoPanelName = "ammo-hud";
+        private const string SkillPanelName = "skill-hud";
         private const string ReloadFillName = "ammo-reload-fill";
 
         [SerializeField] private UIDocument uiDocument;
         [SerializeField] private HealthViewModelSO healthViewModel;
         [SerializeField] private AmmoViewModelSO ammoViewModelAsset;
+        [SerializeField] private SkillSlotViewModelSO skillSlotViewModelAsset;
 
         private readonly List<ScriptableObject> _runtimeViewModels = new();
 
         private HealthModule _health;
         private IReloadable _reloadable;
+        private ISkillModule _skillModule;
+
+        private SkillHudBinder _skillBinder;
 
         private HealthViewModelSO _healthVm;
         private AmmoViewModelSO _ammoVm;
 
-        // 재장전 게이지. 표시 여부는 isReloading 바인딩이 처리하고,
-        // 채워지는 애니메이션만 여기서 돌린다.
         private VisualElement _reloadFill;
         private IValueAnimation _reloadAnimation;
 
@@ -36,23 +40,27 @@ namespace CHG.Scripts.UI
         {
             _health = owner.GetModule<HealthModule>();
             _reloadable = owner.GetModule<IWeapon>() as IReloadable;
+            _skillModule = owner.GetModule<ISkillModule>();
 
             Debug.Assert(uiDocument != null, $"uiDocument is null : {gameObject.name}");
             Debug.Assert(_health != null, $"health is null : {gameObject.name}");
             Debug.Assert(healthViewModel != null, $"healthViewModel is null : {gameObject.name}");
         }
 
-        // UIDocument.rootVisualElement 는 Awake 시점에 아직 null 이므로 Start 에서 구성한다.
         private void Start()
         {
             VisualElement root = uiDocument.rootVisualElement;
 
             BindHealth(root);
             BindAmmo(root);
+            BindSkills(root);
         }
 
         private void OnDestroy()
         {
+            _skillBinder?.Dispose();
+            _skillBinder = null;
+
             _reloadAnimation?.Stop();
             _reloadAnimation = null;
 
@@ -109,27 +117,44 @@ namespace CHG.Scripts.UI
             HandleAmmoChanged(_reloadable.CurrentAmmo, _reloadable.MaxAmmo);
         }
 
+        private void BindSkills(VisualElement root)
+        {
+            if (_skillModule == null)              
+            {
+                HidePanel(root, SkillPanelName);
+                return;
+            }
+
+            if (skillSlotViewModelAsset == null)
+            {
+                Debug.LogError($"skillSlotViewModel 에셋이 없습니다 : {gameObject.name}");
+                HidePanel(root, SkillPanelName);
+                return;
+            }
+
+            _skillBinder = new SkillHudBinder(_skillModule, root, skillSlotViewModelAsset);
+        }
+
         private void HandleHealthChanged(int current, int max) => _healthVm.SetValue(current, max);
         private void HandleAmmoChanged(int current, int max) => _ammoVm.SetValue(current, max);
 
         private void HandleReloadStarted(float duration)
         {
-            _ammoVm.SetReloading(true); // 게이지 표시 여부는 바인딩이 처리한다
+            _ammoVm.SetReloading(true); 
 
             if (_reloadFill == null) return;
 
-            _reloadAnimation?.Stop(); // 이전 애니메이션이 남아 있으면 정리
+            _reloadAnimation?.Stop();
 
-            // Ease 를 지정하지 않으면 기본값이 Easing.OutQuad 라 끝부분에서 감속한다.
-            // 재장전 게이지는 남은 시간을 그대로 보여줘야 하므로 등속(Linear)으로 고정한다.
             _reloadAnimation = _reloadFill.experimental.animation.Start(
                     0f, 1f,
                     Mathf.Max(1, Mathf.RoundToInt(duration * 1000f)),
                     (element, value) => element.style.width = Length.Percent(value * 100f))
-                .Ease(Easing.Linear);
+                .Ease(Easing.Linear)
+                .KeepAlive();
+
         }
 
-        // 완료와 취소 모두 여기로 온다. 어느 쪽이든 게이지는 멈추고 0 으로 돌아간다.
         private void HandleReloadEnded()
         {
             _ammoVm.SetReloading(false);

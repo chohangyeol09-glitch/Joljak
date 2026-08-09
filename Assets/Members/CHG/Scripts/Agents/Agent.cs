@@ -1,5 +1,5 @@
 ﻿using CHG.Scripts.CombatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
 using UnityEngine;
 using UnityEngine.Events;
 

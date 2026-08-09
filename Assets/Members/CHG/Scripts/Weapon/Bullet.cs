@@ -1,5 +1,5 @@
 ﻿using CHG.Scripts.CombatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
 using DevLib.ObjectPool.Runtime;
 using UnityEngine;
 
@@ -14,16 +14,14 @@ namespace CHG.Scripts.Weapon
         [SerializeField] private PoolManagerSO poolManager;
         
         private float _despawnTime;
-        private int _damage;
         private bool _isDespawned;
-        private ModuleOwner _attacker;
+        private DamageData _damageData;
 
-        public void Launch(Vector3 position, Vector3 direction, int damage, ModuleOwner attacker)
+        public void Launch(Vector3 position, Vector3 direction, DamageData damageData)
         {
             transform.SetPositionAndRotation(position, Quaternion.LookRotation(direction));
             _despawnTime = Time.time + lifeTime;
-            _damage = damage;
-            _attacker = attacker;
+            _damageData = damageData;
             _isDespawned = false;
         }
 
@@ -51,7 +49,10 @@ namespace CHG.Scripts.Weapon
                 transform.position = hit.point;
             
             IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
-            damageable?.ApplyDamage(new DamageData(_damage, hit.point, hit.normal, _attacker, false));
+            
+            _damageData.HitPoint = hit.point;
+            _damageData.HitNormal = hit.normal;
+            damageable?.ApplyDamage(_damageData);
             
             Despawn();
         }
