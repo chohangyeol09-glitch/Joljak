@@ -39,7 +39,8 @@ namespace NKT.Enemy.Modules
         }
 
         public bool IsArrived
-            => NavAgent != null && NavAgent.remainingDistance <= NavAgent.stoppingDistance * 0.5f;
+            => NavAgent != null 
+               && (!NavAgent.pathPending && NavAgent.remainingDistance <= NavAgent.stoppingDistance * 0.5f);
         
         public void Initialize(ModuleOwner owner)
         {

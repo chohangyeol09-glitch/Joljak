@@ -38,7 +38,7 @@ namespace NKT.Enemy.BT.Actions
             Agent.Value.transform.rotation = Quaternion.Lerp(
                 Agent.Value.transform.rotation, targetRotation, RotateSpeed.Value * Time.deltaTime);
             
-            return Status.Running;
+            return Status.Success;
         }
     }
 }

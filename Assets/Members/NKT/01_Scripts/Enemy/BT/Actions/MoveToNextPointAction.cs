@@ -40,7 +40,10 @@ namespace NKT.Enemy.BT.Actions
 
         protected override Status OnUpdate()
         {
-            return Status.Success;
+            if(_navMovement.IsArrived)
+                return Status.Success;
+            
+            return Status.Running;
         }
     }
 }

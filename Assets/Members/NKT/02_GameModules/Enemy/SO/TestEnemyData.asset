@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NKT.Enemy.EnemyDataSO
   DetectRadius: 50
   ViewAngle: 50
+  StopDistance: 2.7
