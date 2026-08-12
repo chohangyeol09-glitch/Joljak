@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c14d55f5020ed9741a5e83484db70d82, type: 3}
-  m_Name: ChestData
+  m_Name: CommonChest
   m_EditorClassIdentifier: Assembly-CSharp::ChestData
   chestPrefab: {fileID: 509034890209457981, guid: f7608c16ff3713f45ac018079e2c26ba, type: 3}
   basePurchasePrice: 25
