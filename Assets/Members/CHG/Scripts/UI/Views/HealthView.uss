@@ -1,0 +1,96 @@
+/* 체력 HUD - 화면 좌측 하단
+   1920x1080 기준. PanelSettings 의 Scale Mode 를 Scale With Screen Size 로 두면
+   다른 해상도에서도 이 비율이 유지된다. */
+/* 위치는 PlayerHud.uxml 의 .hud-column 이 정한다. 여기서는 크기와 모양만 다룬다. */
+.health-hud {
+    width: 400px;
+
+    /* height 를 주지 않는다.
+       내용(24 + 3 + 40)에 맞춰 자동으로 잡히고, 아래가 고정이라 위로 자란다. */
+    padding: 4px;
+
+    background-color: rgba(10, 10, 12, 0.72);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.28);
+    border-radius: 3px;
+}
+
+/* 이름이 들어가는 윗줄.
+   height 고정 + flex-shrink:0 이라 글자가 아무리 길어도 아래 바를 밀지 않는다. */
+.hud__top-row {
+    height: 24px;
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.hud__name {
+    font-size: 15px;
+    color: rgb(235, 235, 235);
+    -unity-font-style: bold;
+    margin: 0;
+    padding: 0;
+
+    /* 이름이 길어도 두 줄로 넘어가지 않고 ... 으로 잘린다.
+       이게 없으면 줄바꿈이 생기면서 높이가 흔들린다. */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 체력바 배경 트랙.
+   flex-shrink:0 이라 형제 요소 때문에 절대 눌리지 않는다. */
+.hud__bar-track {
+    height: 40px;
+    flex-shrink: 0;
+    background-color: rgb(18, 18, 20);
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+}
+
+/* 차오르는 부분. width 와 background-color 는 DataBinding 이 주입한다 */
+.hud__bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%; /* 초기값. 바인딩이 덮어쓴다 */
+    background-color: rgb(90, 210, 80);
+
+    /* 체력이 깎일 때 부드럽게 줄어든다. 코드 한 줄 없이 uss 만으로 처리 */
+    transition-property: width, background-color;
+    transition-duration: 0.25s, 0.4s;
+    transition-timing-function: ease-out, ease-in-out;
+}
+
+/* 숫자를 바 위에 겹치기 위한 컨테이너 */
+.hud__bar-label-row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.hud__bar-label {
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.85);
+    margin: 0;
+    padding: 0;
+}
+
+.hud__bar-sep {
+    color: rgba(255, 255, 255, 0.75);
+    margin-left: 4px;
+    margin-right: 4px;
+}
