@@ -7,12 +7,11 @@ namespace CHG.Scripts.Agents
 {
     public enum ConstraintType
     {
-        Rooted,     
-        Disarmed,   
-        Silenced,   
-        Unaimable,  
-        Stunned,
-        Weightless,
+        Rooted, //수동 이동, 점프, 대쉬 불가
+        Disarmed, //무기 발사 불가
+        Silenced, //스킬 사용 불가
+        Stunned, // 스턴 상태 전환 
+        Weightless, //중력 무시
     }
     
     public class ConstraintModule : MonoBehaviour, IModule

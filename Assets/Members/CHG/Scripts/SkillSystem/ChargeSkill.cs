@@ -37,7 +37,6 @@ namespace CHG.Scripts.SkillSystem
                 StopSkill();
                 StartCooldown();
             }
-            
         }
 
         public sealed override void ReleaseSkill()

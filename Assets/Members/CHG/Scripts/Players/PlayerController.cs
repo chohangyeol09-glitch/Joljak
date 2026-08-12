@@ -1,6 +1,7 @@
 ﻿using CHG.Scripts.Agents;
 using CHG.Scripts.Agents.FSM;
 using CHG.Scripts.Players.FSM;
+using CHG.Scripts.Players.InteractionSystem;
 using CHG.Scripts.SkillSystem;
 using CHG.Scripts.Weapon;
 using DefaultNamespace;
@@ -21,6 +22,7 @@ namespace CHG.Scripts.Players
         private IReloadable _reloadable;
         private ConstraintModule _constraint;
         private ISkillModule _skillModule;
+        private InteractionModule _interactionModule;
 
         protected override void InitializeModules()
         {
@@ -32,12 +34,14 @@ namespace CHG.Scripts.Players
             _reloadable = _weapon as IReloadable;
             _constraint = GetModule<ConstraintModule>();
             _skillModule = GetModule<ISkillModule>();
+            _interactionModule = GetModule<InteractionModule>();
             
             Debug.Assert(_controlMovement != null, $"ControlMovement is null : {gameObject.name}");
             Debug.Assert(_aimModule != null, $"AimModule is null : {gameObject.name}");
             Debug.Assert(_weapon != null, $"Weapon is null : {gameObject.name}");
             Debug.Assert(_constraint != null, $"Constraint is null : {gameObject.name}");
             Debug.Assert(_skillModule != null, $"SkillModule is null : {gameObject.name}");
+            Debug.Assert(_interactionModule != null, $"InteractionModule is null : {gameObject.name}");
         }
 
         protected override void AfterInitializeModules()
@@ -53,6 +57,9 @@ namespace CHG.Scripts.Players
             PlayerInput.OnReloadKeyDown += HandleReload;
             PlayerInput.OnSkillKeyDown += HandelSkillKeyDown;
             PlayerInput.OnSkillKeyUp += HandleSkillKeyUp;
+            PlayerInput.OnInteractKeyStarted += HandleInteractKeyStarted;
+            PlayerInput.OnInteractKeyPerformed += HandleInteractKeyPerformed;
+            PlayerInput.OnInteractKeyCanceled += HandleInteractKeyCanceled;
             _constraint.OnConstraintAdded += HandleConstraintAdded;
             _constraint.OnConstraintRemoved += HandleConstraintRemoved;
             
@@ -72,6 +79,9 @@ namespace CHG.Scripts.Players
             PlayerInput.OnReloadKeyDown -= HandleReload;
             PlayerInput.OnSkillKeyDown -= HandelSkillKeyDown;
             PlayerInput.OnSkillKeyUp -= HandleSkillKeyUp;
+            PlayerInput.OnInteractKeyStarted -= HandleInteractKeyStarted;
+            PlayerInput.OnInteractKeyPerformed -= HandleInteractKeyPerformed;
+            PlayerInput.OnInteractKeyCanceled -= HandleInteractKeyCanceled;
             _constraint.OnConstraintAdded -= HandleConstraintAdded;
             _constraint.OnConstraintRemoved -= HandleConstraintRemoved;
         }
@@ -82,15 +92,9 @@ namespace CHG.Scripts.Players
             ChangeState(PlayerState.IDLE, transitionDuration: 0);
         }
 
-        private void Update()
-        {
-            _stateMachine.UpdateMachine();
-        }
+        private void Update() => _stateMachine.UpdateMachine();
 
-        private void FixedUpdate()
-        {
-            _stateMachine.FixedUpdateMachine();
-        }
+        private void FixedUpdate() => _stateMachine.FixedUpdateMachine();
         
         public void ChangeState(PlayerState newState, float transitionDuration)
             => _stateMachine.ChangeState((int)newState, transitionDuration);
@@ -141,16 +145,17 @@ namespace CHG.Scripts.Players
             ChangeState(hasInput ? PlayerState.RUN : PlayerState.IDLE, 0.1f);
         }
         
-        private void HandleReload()
-        {
-            _reloadable?.Reload();
-        }
+        private void HandleReload() => _reloadable?.Reload();
         
         private void HandelSkillKeyDown(int slot)
         {
             _reloadable?.CancelReload();
             _skillModule.TryUseSkill(slot);
         }
+
+        private void HandleInteractKeyStarted() => _interactionModule.HandleInteractionStarted();
+        private void HandleInteractKeyPerformed() => _interactionModule.HandleInteractionPerformed();
+        private void HandleInteractKeyCanceled() => _interactionModule.HandleInteractionCanceled();
 
         private void HandleSkillKeyUp(int slot)
         {

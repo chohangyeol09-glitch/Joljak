@@ -13,8 +13,9 @@ namespace DefaultNamespace
         public event Action OnAttackKeyUp;
         public event Action OnAimKeyDown;
         public event Action OnAimKeyUp;
-        public event Action OnEventKeyDown;
-        public event Action OnEventKeyUp;
+        public event Action OnInteractKeyStarted;
+        public event Action OnInteractKeyPerformed;
+        public event Action OnInteractKeyCanceled;
         public event Action OnJumpKeyDown;
         public event Action OnDashKeyDown;
         public event Action OnDashKeyUp;
@@ -77,11 +78,14 @@ namespace DefaultNamespace
 
         public void OnInteract(InputAction.CallbackContext context)
         {
+            if (context.started)
+                OnInteractKeyStarted?.Invoke();
+            
             if (context.performed)
-                OnEventKeyDown?.Invoke();
+                OnInteractKeyPerformed?.Invoke();
             
             if (context.canceled)
-                OnEventKeyUp?.Invoke();
+                OnInteractKeyCanceled?.Invoke();
         }
 
         public void OnJump(InputAction.CallbackContext context)
