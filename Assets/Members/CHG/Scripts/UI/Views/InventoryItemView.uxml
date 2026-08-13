@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="InventoryItemView.uss" />
+    <ui:VisualElement name="inventory-item" class="inventory-item" picking-mode="Ignore">
+        <ui:VisualElement name="item-icon" class="inventory-item__icon" picking-mode="Ignore">
+            <Bindings>
+                <ui:DataBinding property="style.backgroundImage" data-source-path="icon" binding-mode="ToTarget" converter-group="Sprite to Background" source-to-ui-converters="Sprite to Background" />
+            </Bindings>
+        </ui:VisualElement>
+
+        <ui:Label name="item-name" class="inventory-item__name" picking-mode="Ignore">
+            <Bindings>
+                <ui:DataBinding property="text" data-source-path="labelName" binding-mode="ToTarget" />
+            </Bindings>
+        </ui:Label>
+
+        <ui:Label name="item-count" class="inventory-item__count" picking-mode="Ignore">
+            <Bindings>
+                <ui:DataBinding property="text" data-source-path="count" binding-mode="ToTarget" converter-group="Int to String" />
+            </Bindings>
+        </ui:Label>
+    </ui:VisualElement>
+</ui:UXML>

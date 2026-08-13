@@ -22,7 +22,7 @@ namespace CHG.Scripts.UI
         [SerializeField] private AmmoViewModelSO ammoViewModelAsset;
         [SerializeField] private SkillSlotViewModelSO skillSlotViewModelAsset;
 
-        private readonly List<ScriptableObject> _runtimeViewModels = new();
+        private readonly RuntimeViewModels _viewModels = new();
 
         private HealthModule _health;
         private IReloadable _reloadable;
@@ -74,15 +74,12 @@ namespace CHG.Scripts.UI
                 _reloadable.OnReloadEnded -= HandleReloadEnded;
             }
 
-            foreach (ScriptableObject vm in _runtimeViewModels)
-                Destroy(vm);
-
-            _runtimeViewModels.Clear();
+            _viewModels.Dispose();
         }
 
         private void BindHealth(VisualElement root)
         {
-            _healthVm = Register(Instantiate(healthViewModel));
+            _healthVm = _viewModels.Create(healthViewModel);
             BindPanel(root, HealthPanelName, _healthVm);
 
             _health.OnHealthChanged += HandleHealthChanged;
@@ -104,7 +101,7 @@ namespace CHG.Scripts.UI
                 return;
             }
 
-            _ammoVm = Register(Instantiate(ammoViewModelAsset));
+            _ammoVm = _viewModels.Create(ammoViewModelAsset);
             BindPanel(root, AmmoPanelName, _ammoVm);
 
             _reloadFill = root.Q(ReloadFillName);
@@ -165,12 +162,6 @@ namespace CHG.Scripts.UI
             _reloadAnimation = null;
 
             _reloadFill.style.width = Length.Percent(0f);
-        }
-
-        private T Register<T>(T viewModel) where T : ScriptableObject
-        {
-            _runtimeViewModels.Add(viewModel);
-            return viewModel;
         }
 
         private static void BindPanel(VisualElement root, string panelName, ScriptableObject viewModel)

@@ -15,11 +15,13 @@ namespace CHG.Scripts.Players.InteractionSystem
         private IInteractable _currentInteractable;
         private IInteractable _activeInteractable;
         private bool _performed = false;
+        private ModuleOwner _owner;
         private Transform _ownerTrm;
         
         
         public void Initialize(ModuleOwner owner)
         {
+            _owner = owner;
             _ownerTrm = owner.transform;
         }
 
@@ -43,7 +45,7 @@ namespace CHG.Scripts.Players.InteractionSystem
         {
             _activeInteractable = _currentInteractable;
            _performed = false;
-           _activeInteractable?.Interact();
+           _activeInteractable?.Interact(_owner);
         }
 
         public void HandleInteractionPerformed()

@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="InventoryHud.uss" />
+       <ui:VisualElement name="inventory-root" class="inventory-root">
+
+        <ui:VisualElement name="inventory-panel" class="inventory-panel">
+            <ui:Label text="인벤토리" class="inventory-title" />
+            <ui:ScrollView name="inventory-list" class="inventory-list"
+                           mode="Vertical"
+                           horizontal-scroller-visibility="Hidden"
+                           vertical-scroller-visibility="Auto" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

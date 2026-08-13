@@ -23,6 +23,8 @@ namespace DefaultNamespace
         public event Action OnReloadKeyUp;
         public event Action<int> OnSkillKeyDown;
         public event Action<int> OnSkillKeyUp;
+        public event Action OnInventoryKeyDown;
+        
         
         private Controls _controls;
 
@@ -147,6 +149,12 @@ namespace DefaultNamespace
             
             if (context.canceled)
                 OnSkillKeyUp?.Invoke(3);
+        }
+
+        public void OnInventory(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnInventoryKeyDown?.Invoke();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CHG.Scripts.Players.InteractionSystem;
+using DevLib.ModuleSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,7 +25,7 @@ namespace CHG.Scripts.Test
             OnFocusExited?.Invoke();
         }
 
-        public void Interact()
+        public void Interact(ModuleOwner owner)
         {
             Debug.Log($"Interacted : {gameObject.name}");
             OnInteracted?.Invoke();

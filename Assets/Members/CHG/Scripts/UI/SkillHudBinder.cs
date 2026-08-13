@@ -4,6 +4,7 @@ using CHG.Scripts.UI.ViewModels;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UIElements.Experimental;
+using Object = UnityEngine.Object;
 
 namespace CHG.Scripts.UI
 {
@@ -34,6 +35,7 @@ namespace CHG.Scripts.UI
 
         private readonly ISkillModule _skillModule;
         private readonly Slot[] _slots;
+        private readonly RuntimeViewModels _viewModels = new();
         private readonly IVisualElementScheduledItem _chargeTick;
 
         public SkillHudBinder(ISkillModule skillModule, VisualElement root, SkillSlotViewModelSO viewModelAsset)
@@ -50,7 +52,7 @@ namespace CHG.Scripts.UI
                     continue;
                 }
 
-                SkillSlotViewModelSO vm = UnityEngine.Object.Instantiate(viewModelAsset);
+                SkillSlotViewModelSO vm = _viewModels.Create(viewModelAsset);
                 vm.keyLabel = (i + 1).ToString();
 
                 slotElement.dataSource = vm;
@@ -109,10 +111,8 @@ namespace CHG.Scripts.UI
                 slot.Animation?.Stop();
                 slot.Animation = null;
 
-                if (slot.Vm != null)
-                    UnityEngine.Object.Destroy(slot.Vm); 
-                
             }
+            _viewModels.Dispose();
         }
 
         private void HandleSlotChanged(int slotIndex, ISkill skill) => BindSkill(slotIndex, skill);
@@ -139,10 +139,10 @@ namespace CHG.Scripts.UI
             }
 
             slot.Vm.SetSkill(skill.Data.AssetName, skill.Data.Icon);
-            slot.Vm.SetUsable(skill.CanUseSkill());
+            slot.Vm.SetUsable(!skill.IsBlocked);
 
             slot.CooldownHandler = duration => StartCooldownAnimation(slot, duration);
-            slot.UsableHandler = () => slot.Vm.SetUsable(slot.Skill.CanUseSkill());
+            slot.UsableHandler = () => slot.Vm.SetUsable(!slot.Skill.IsBlocked);
             
             slot.Charging = skill as ChargeSkill;
 
