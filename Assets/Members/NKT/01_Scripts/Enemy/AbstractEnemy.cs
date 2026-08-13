@@ -12,7 +12,7 @@ namespace NKT.Enemy
         [SerializeField] private EnemyDataSO enemyData;
 
         public EnemyDataSO EnemyDataSo => enemyData;
-        public INavMovement Movement { get; private set; }
+        public IAgentMovement Movement { get; private set; }
         public AgentRenderer Renderer { get; private set; }
         public AgentSensor Sensor { get; private set; }
         [field: SerializeField] public WayPointsContainer StageWayPoints { get; private set; }
@@ -22,7 +22,7 @@ namespace NKT.Enemy
         {
             base.InitializeModules();
             Sensor = GetModule<AgentSensor>();
-            Movement = GetModule<NavMovement>();
+            Movement = GetModule<IAgentMovement>();
             Renderer = GetModule<AgentRenderer>();
         }
 

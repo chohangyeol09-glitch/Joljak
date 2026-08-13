@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace NKT.Enemy.Modules
 {
-    public class NavMovement : MonoBehaviour, IModule, INavMovement
+    public class NavMovement : MonoBehaviour, IModule, IAgentMovement
     {
         public NavMeshAgent NavAgent { get; private set; }
 
@@ -27,6 +27,8 @@ namespace NKT.Enemy.Modules
                     NavAgent.speed = value;
             }
         }
+
+        public float StoppingDistance { get; set; }
 
         public bool IsStopped
         {
@@ -51,6 +53,11 @@ namespace NKT.Enemy.Modules
         public void SetDestination(Vector3 destination)
         {
             NavAgent.SetDestination(destination);
+        }
+
+        public void Stop()
+        {
+            NavAgent.ResetPath();
         }
     }
 }

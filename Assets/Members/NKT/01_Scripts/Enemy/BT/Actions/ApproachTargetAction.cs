@@ -15,7 +15,7 @@ namespace NKT.Enemy.BT.Actions
         [SerializeReference] public BlackboardVariable<GameObject> Target;
 
         private Vector3 _destination;
-        private INavMovement _navMovement;
+        private IAgentMovement _navMovement;
         
         protected override Status OnStart()
         {
@@ -33,14 +33,16 @@ namespace NKT.Enemy.BT.Actions
             if (Target.Value == null) return Status.Failure;
 
             Vector3 newDestination = Target.Value.transform.position;
-            if (Vector3.Distance(_destination, newDestination) > 1f)
+            if (Vector3.Distance(_destination, newDestination) > 1f)//타겟이 기존 위치에서 어느정도 움직였을때
             {
-                _destination = newDestination;
+                _destination = newDestination;//새로 갱신을 한다
                 _navMovement.SetDestination(_destination);
             }
 
-            float distance = Vector3.Distance(Enemy.Value.transform.position, Target.Value.transform.position);
-            return distance <= Enemy.Value.EnemyDataSo.StopDistance ? Status.Success : Status.Running;
+            Vector3 toTarget = Target.Value.transform.position - Enemy.Value.transform.position;
+            toTarget.y = 0f;//공중 유닛이 타겟 위에 떠 있어도 도착 판정이 되도록 수평 거리만 본다
+
+            return toTarget.magnitude <= Enemy.Value.EnemyDataSo.StopDistance ? Status.Success : Status.Running;
         }
     }
 }

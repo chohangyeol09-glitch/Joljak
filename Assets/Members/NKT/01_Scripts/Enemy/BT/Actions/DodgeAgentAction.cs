@@ -17,7 +17,7 @@ namespace NKT.Enemy.BT.Actions
         [SerializeReference] public BlackboardVariable<float> MinDistance = new(2f);
         [SerializeReference] public BlackboardVariable<float> MaxDistance = new(4f);
         
-        private INavMovement _navMovement;
+        private IAgentMovement _navMovement;
 
         protected override Status OnStart()
         {

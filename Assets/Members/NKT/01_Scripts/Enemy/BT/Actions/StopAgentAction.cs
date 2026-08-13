@@ -16,7 +16,7 @@ namespace NKT.Enemy.BT.Actions
         {
             if (Agent.Value == null|| Agent.Value.Movement == null) return Status.Failure;
             
-            Agent.Value.Movement.NavAgent.ResetPath();
+            Agent.Value.Movement.Stop();
             return Status.Running;
         }
     }

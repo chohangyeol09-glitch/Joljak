@@ -1,9 +1,12 @@
+﻿using System.Collections.Generic;
 using CHG.Scripts.CoreSystem.ModuleSystem;
+using NKT.Enemy.Modules;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace NKT.FlyingEnemy
 {
-    public class FlyMovement : MonoBehaviour, IModule, IFlyMovement
+    public class FlyMovement : MonoBehaviour, IModule, IAgentMovement
     {
         [SerializeField] private float speed = 3f;
         [SerializeField] private float arriveThreshold = 0.3f;
@@ -14,9 +17,14 @@ namespace NKT.FlyingEnemy
 
         public Vector3 Velocity { get; set; }
         public float Speed { get => speed; set => speed = value; }
+        public float StoppingDistance { get; set; }
         public bool IsStopped { get; set; }
         public bool IsArrived => Vector3.Distance(_corePosition, _destination) <= arriveThreshold;
 
+        private Transform _owner;
+        private AgentSensor _sensor;
+        
+        private List<Vector3> _path = new List<Vector3>();
         private Vector3 _corePosition;
         private Vector3 _destination;
         private bool _hasDestination;
@@ -26,6 +34,9 @@ namespace NKT.FlyingEnemy
 
         public void Initialize(ModuleOwner owner)
         {
+            _owner = owner.transform;
+            _sensor = owner.GetModule<AgentSensor>();
+            
             _corePosition = transform.position;
             _targetHoverY = _corePosition.y + hoverHeight;
             _destination = _corePosition;
@@ -34,9 +45,37 @@ namespace NKT.FlyingEnemy
 
         public void SetDestination(Vector3 destination)
         {
+            if (Mathf.Approximately(_destination.x, destination.x) &&
+                Mathf.Approximately(_destination.z, destination.z))
+                return;
             _destination = destination;
             _hasDestination = true;
             IsStopped = false;
+        }
+
+        public void Stop()
+        {
+            IsStopped = true;
+            Velocity = Vector3.zero;
+            _hasDestination = false;
+            _destination = _corePosition;
+            _path.Clear();
+        }
+
+        //todo: findPath로 경로 계산한걸 update에서 자동으로 움직이게 하고
+        //todo: (타켓 기준으로) 높이가 너무 낮을때는 최소 높이 만큼은 올라가게 하기
+        public Vector3[] FindPath(Vector3 startPos, Vector3 targetPos)//여기서 뚫여있으면 목표만 반환하고 아니면 경로 계산해서 넘겨주기
+        {
+            _path.Clear();
+            if (_sensor.IsTargetIsInSight3D(targetPos))
+            {//경로 계산 로직
+                
+            }
+            else
+            {
+                _path.Add(targetPos);
+            }
+            return _path.ToArray();
         }
 
         private void Update()
@@ -44,7 +83,7 @@ namespace NKT.FlyingEnemy
             if (!_hasRisen)
             {
                 _corePosition.y = Mathf.MoveTowards(_corePosition.y, _targetHoverY, riseSpeed * Time.deltaTime);
-                transform.position = _corePosition;
+                _owner.position = _corePosition;
                 if (Mathf.Approximately(_corePosition.y, _targetHoverY))
                 {
                     _hasRisen = true;
@@ -62,7 +101,7 @@ namespace NKT.FlyingEnemy
                     Vector3 move = direction * (speed * Time.deltaTime);
                     _corePosition += move;
                     Velocity = move / Time.deltaTime;
-                    transform.rotation = Quaternion.LookRotation(direction);
+                    _owner.rotation = Quaternion.LookRotation(direction);
                 }
                 else
                 {
@@ -75,7 +114,7 @@ namespace NKT.FlyingEnemy
             }
 
             float bob = Mathf.Sin(Time.time * bobFrequency + _bobPhase) * bobAmplitude;
-            transform.position = _corePosition + Vector3.up * bob;
+            _owner.position = _corePosition + Vector3.up * bob;
         }
     }
 }

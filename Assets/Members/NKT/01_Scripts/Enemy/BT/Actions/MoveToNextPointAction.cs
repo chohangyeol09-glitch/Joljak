@@ -14,7 +14,7 @@ namespace NKT.Enemy.BT.Actions
     {
         [SerializeReference] public BlackboardVariable<AbstractEnemy> Agent;
         
-        private INavMovement _navMovement;
+        private IAgentMovement _navMovement;
 
         protected override Status OnStart()
         {

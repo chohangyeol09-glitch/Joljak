@@ -42,6 +42,19 @@ namespace NKT.Enemy.Modules
             }
             return true;
         }
+
+        public bool IsTargetIsInSight3D(Vector3 target)
+        {
+            target.y += 1f;//여유분으로 살짝 위를 기준으로
+            Vector3 direction = target - transform.position;
+            float distance = direction.magnitude;
+            if (Physics.Raycast(transform.position, direction.normalized, out RaycastHit hit, distance, obstacleLayer))
+            {
+                Debug.Log(hit.collider.gameObject.name);
+                return false; //장애물이 시야를 가로막는중이다.
+            }
+            return true;
+        }
         
         public bool IsTargetInViewRadius(Transform targetTrm, float viewRadius)
             => (targetTrm.position - transform.position).sqrMagnitude <=  viewRadius * viewRadius;

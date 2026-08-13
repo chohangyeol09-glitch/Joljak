@@ -3,14 +3,15 @@ using UnityEngine.AI;
 
 namespace NKT.Enemy.Modules
 {
-    public interface INavMovement
+    public interface IAgentMovement
     {
-        NavMeshAgent NavAgent { get; }
         Vector3 Velocity { get; set; }
         float Speed { get; set; }
+        float StoppingDistance { get; set; } 
         bool IsStopped { get; set; }
         bool IsArrived { get; } //get만 준다
         
         void SetDestination(Vector3 destination);
+        void Stop();
     }
 }
