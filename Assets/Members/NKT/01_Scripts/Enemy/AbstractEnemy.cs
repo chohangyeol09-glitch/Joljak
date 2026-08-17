@@ -15,6 +15,7 @@ namespace NKT.Enemy
         public IAgentMovement Movement { get; private set; }
         public AgentRenderer Renderer { get; private set; }
         public AgentSensor Sensor { get; private set; }
+        public AgentTrigger Trigger { get; private set; }
         [field: SerializeField] public WayPointsContainer StageWayPoints { get; private set; }
         public int CurrentWayPoint { get; set; } = -1;
 
@@ -24,6 +25,7 @@ namespace NKT.Enemy
             Sensor = GetModule<AgentSensor>();
             Movement = GetModule<IAgentMovement>();
             Renderer = GetModule<AgentRenderer>();
+            Trigger = GetModule<AgentTrigger>();
         }
 
         protected override void HandleHit()

@@ -750,6 +750,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NKT.FlyingEnemy.FlyMovement
   speed: 3
   arriveThreshold: 0.3
+  cornerThreshold: 1
+  rotateSpeed: 8
+  repathThreshold: 0.5
   bobAmplitude: 0.3
   bobFrequency: 1.5
   hoverHeight: 2
@@ -1769,8 +1772,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6342042166946360391, guid: 33db9b449ea8f0846af8d6ed05a3e122, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8435363664925165054}
   m_SourcePrefab: {fileID: 100100000, guid: 33db9b449ea8f0846af8d6ed05a3e122, type: 3}
+--- !u!1 &8435363664925165053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6342042166946360391, guid: 33db9b449ea8f0846af8d6ed05a3e122, type: 3}
+  m_PrefabInstance: {fileID: 8435363664925165052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8435363664925165054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435363664925165053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cc999d8159340a2a6843626b03a0ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CHG.Scripts.Agents.AgentTrigger
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
