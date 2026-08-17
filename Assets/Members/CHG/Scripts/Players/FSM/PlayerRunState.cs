@@ -24,15 +24,11 @@ namespace CHG.Scripts.Players.FSM
 
             if (!_controlMovement.CanManualMove) return;
             
-            if (!_controlMovement.CanManualMove || input.magnitude < INPUT_DEADZONE)
+            if (input.magnitude < INPUT_DEADZONE)
                 _player.ChangeState(PlayerState.IDLE, transitionDuration: 0.1f);
             
         }
         
-        public override void Exit()
-        {
-            base.Exit();
-        }
         
     }
 }

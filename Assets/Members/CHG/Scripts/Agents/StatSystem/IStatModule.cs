@@ -1,6 +1,5 @@
 ﻿using CHG.Scripts.CombatSystem;
 using CHG.Scripts.SkillSystem;
-using CHG.Scripts.Weapon.WeaponSO;
 
 namespace CHG.Scripts.Agents.StatSystem
 {

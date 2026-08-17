@@ -1,5 +1,4 @@
 using CHG.Scripts.SkillSystem;
-using CHG.Scripts.Weapon.WeaponSO;
 using UnityEngine;
 
 namespace CHG.Scripts.CombatSystem

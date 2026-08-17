@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CHG.Scripts.Weapon
+namespace CHG.Scripts.WeaponSystem
 {
     [Serializable]
     public class WeaponDisplayInfo

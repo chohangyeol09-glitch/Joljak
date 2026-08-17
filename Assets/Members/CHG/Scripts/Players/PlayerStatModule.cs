@@ -1,7 +1,6 @@
 ﻿using CHG.Scripts.Agents.StatSystem;
 using CHG.Scripts.CombatSystem;
 using CHG.Scripts.SkillSystem;
-using CHG.Scripts.Weapon.WeaponSO;
 using DevLib.ModuleSystem;
 using UnityEngine;
 
@@ -40,7 +39,7 @@ namespace CHG.Scripts.Players
 
             bool isCritical = Random.value < criStat.Value;
             if (isCritical) 
-                damage *= criStat.Value;
+                damage *= cDmgStat.Value;
             
             return new DamageData(Mathf.RoundToInt(damage), Vector3.zero, Vector3.zero, _owner, isCritical);
         }

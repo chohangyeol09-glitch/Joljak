@@ -3,7 +3,7 @@ using CHG.Scripts.Agents.FSM;
 using CHG.Scripts.Players.FSM;
 using CHG.Scripts.Players.InteractionSystem;
 using CHG.Scripts.SkillSystem;
-using CHG.Scripts.Weapon;
+using CHG.Scripts.WeaponSystem;
 using DefaultNamespace;
 using Members.CHG.Scripts.Players.FSM;
 using UnityEngine;
@@ -18,11 +18,12 @@ namespace CHG.Scripts.Players
         private StateMachine _stateMachine;
         private IControlMovement _controlMovement;
         private IAimModule _aimModule;
-        private IWeapon _weapon;
+        private Weapon _weapon;
         private IReloadable _reloadable;
         private ConstraintModule _constraint;
         private ISkillModule _skillModule;
         private InteractionModule _interactionModule;
+        
 
         protected override void InitializeModules()
         {
@@ -30,8 +31,8 @@ namespace CHG.Scripts.Players
             _stateMachine = new StateMachine(this, playerStates.states);
             _controlMovement = GetModule<IControlMovement>();
             _aimModule = GetModule<IAimModule>();
-            _weapon = GetModule<IWeapon>();
-            _reloadable = _weapon as IReloadable;
+            _weapon = GetModule<Weapon>();
+            _reloadable = _weapon.GetPart<IReloadable>();
             _constraint = GetModule<ConstraintModule>();
             _skillModule = GetModule<ISkillModule>();
             _interactionModule = GetModule<InteractionModule>();

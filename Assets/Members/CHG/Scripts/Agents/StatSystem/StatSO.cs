@@ -44,11 +44,12 @@ namespace CHG.Scripts.Agents.StatSystem
 
         public void AddModifier(object key, float modifier)
         {
-            if (_modifyValueByKey.ContainsKey(key)) return;
-
             float prevValue = Value;
+            if (_modifyValueByKey.TryGetValue(key, out float previous))
+                _modifiedValue -= previous;
+
             _modifiedValue += modifier;
-            _modifyValueByKey.Add(key, modifier);
+            _modifyValueByKey[key] = modifier;
             
             TryInvokeValueChangedEvent(Value, prevValue);
         }

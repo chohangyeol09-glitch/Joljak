@@ -2,7 +2,6 @@
 using System.Linq;
 using CHG.Scripts.CombatSystem;
 using CHG.Scripts.SkillSystem;
-using CHG.Scripts.Weapon.WeaponSO;
 using DevLib.ModuleSystem;
 using UnityEngine;
 

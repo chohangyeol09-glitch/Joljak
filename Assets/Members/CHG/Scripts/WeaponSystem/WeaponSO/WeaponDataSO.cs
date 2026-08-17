@@ -1,13 +1,14 @@
 ﻿using CHG.Scripts.CombatSystem;
 using UnityEngine;
 
-namespace CHG.Scripts.Weapon.WeaponSO
+namespace CHG.Scripts.WeaponSystem.WeaponSO
 {
-    public abstract class AbstractWeaponData : ScriptableObject
+    [CreateAssetMenu(fileName = "Weapon data", menuName = "Weapon/Weapon data")]
+    public class WeaponDataSO : ScriptableObject
     {
-        [field: SerializeField] public int Damage { get; private set; }
+        [field: SerializeField] public int Damage { get; private set; }    
         [field: SerializeField] public DamageType DamageType { get; private set; }
-        [field:Tooltip("초당 공격 수")]
+        [field: Tooltip("초당 공격 수")]
         [field: SerializeField] public float AttackRate { get; private set; }
         
         [Header("Display")]

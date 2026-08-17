@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CHG.Scripts.Weapon
+namespace CHG.Scripts.WeaponSystem
 {
     public interface IReloadable
     {

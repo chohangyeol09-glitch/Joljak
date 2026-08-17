@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f8156e43e64483817da3f577e62dae, type: 3}
+  m_Name: Weapon data
+  m_EditorClassIdentifier: Assembly-CSharp::CHG.Scripts.WeaponSystem.WeaponSO.WeaponDataSO
+  <Damage>k__BackingField: 5
+  <DamageType>k__BackingField: 0
+  <AttackRate>k__BackingField: 2
+  <Display>k__BackingField:
+    <DisplayName>k__BackingField: "\uD14C\uC2A4\uD2B8"
+    <Icon>k__BackingField: {fileID: 21300000, guid: 5850bbe7ccac76c4c96efb33847a93f0, type: 3}
+    <Description>k__BackingField: "\uD14C\uC2A4\uD2B8\uC6A9"

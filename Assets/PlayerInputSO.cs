@@ -44,7 +44,21 @@ namespace DefaultNamespace
         {
             _controls.Player.Disable();
         }
-        
+
+        public void SetGameplayInputEnabled(bool enabled)
+        {
+            if (enabled)
+            {
+                _controls.Player.Enable();
+                return;
+            }
+            
+            _controls.Player.Disable();
+            _controls.Player.Inventory.Enable();
+            
+            CurrentMovement = Vector2.zero;
+            OnMovementChange?.Invoke(CurrentMovement);
+        }
         
         public void OnMove(InputAction.CallbackContext context)
         {

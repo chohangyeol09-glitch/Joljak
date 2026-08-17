@@ -2,7 +2,7 @@
 using CHG.Scripts.Agents.StatSystem;
 using CHG.Scripts.CombatSystem;
 using CHG.Scripts.SkillSystem.SkillDatas;
-using CHG.Scripts.Weapon;
+using CHG.Scripts.WeaponSystem;
 using DevLib.ObjectPool.Runtime;
 using UnityEngine;
 

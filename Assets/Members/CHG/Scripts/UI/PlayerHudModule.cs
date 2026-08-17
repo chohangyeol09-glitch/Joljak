@@ -3,7 +3,7 @@ using CHG.Scripts.CombatSystem;
 using CHG.Scripts.SkillSystem;
 using DevLib.ModuleSystem;
 using CHG.Scripts.UI.ViewModels;
-using CHG.Scripts.Weapon;
+using CHG.Scripts.WeaponSystem;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UIElements.Experimental;
@@ -39,7 +39,7 @@ namespace CHG.Scripts.UI
         public void Initialize(ModuleOwner owner)
         {
             _health = owner.GetModule<HealthModule>();
-            _reloadable = owner.GetModule<IWeapon>() as IReloadable;
+            _reloadable = owner.GetModule<Weapon>()?.GetPart<IReloadable>();
             _skillModule = owner.GetModule<ISkillModule>();
 
             Debug.Assert(uiDocument != null, $"uiDocument is null : {gameObject.name}");

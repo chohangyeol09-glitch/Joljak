@@ -84,6 +84,8 @@ namespace CHG.Scripts.UI
             if (_root != null)
                 _root.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
 
+           _playerInput.SetGameplayInputEnabled(!open); 
+            
             Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = open;
         }
@@ -107,6 +109,7 @@ namespace CHG.Scripts.UI
             entry.style.flexShrink = 0;
             entry.dataSource = vm;
             _list.Add(entry);
+            
         }
         
     }

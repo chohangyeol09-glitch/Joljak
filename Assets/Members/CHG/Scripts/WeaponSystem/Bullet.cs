@@ -1,9 +1,8 @@
 ﻿using CHG.Scripts.CombatSystem;
-using DevLib.ModuleSystem;
 using DevLib.ObjectPool.Runtime;
 using UnityEngine;
 
-namespace CHG.Scripts.Weapon
+namespace CHG.Scripts.WeaponSystem
 {
     public class Bullet : PoolableMono
     {
@@ -13,20 +12,34 @@ namespace CHG.Scripts.Weapon
         [SerializeField] private LayerMask hitMask;
         [SerializeField] private PoolManagerSO poolManager;
         
+        [Header("Homing")]
+        [SerializeField] private float turnRate = 360f;
+        [SerializeField] private float aimHeight = 1f;
+
+        private Transform _homingTarget;
         private float _despawnTime;
         private bool _isDespawned;
         private DamageData _damageData;
 
-        public void Launch(Vector3 position, Vector3 direction, DamageData damageData)
+        public void Launch(Vector3 position, Vector3 direction, DamageData damageData, Transform homingTarget = null)
         {
             transform.SetPositionAndRotation(position, Quaternion.LookRotation(direction));
             _despawnTime = Time.time + lifeTime;
             _damageData = damageData;
+            _homingTarget = homingTarget;
             _isDespawned = false;
         }
 
         private void Update()
         {
+            if (_homingTarget != null && _homingTarget.gameObject.activeInHierarchy)
+            {
+                Vector3 desired = (_homingTarget.position + Vector3.up * aimHeight) - transform.position;
+                transform.forward = Vector3.RotateTowards(
+                    transform.forward, desired.normalized,
+                    turnRate * Mathf.Deg2Rad * Time.deltaTime, 0f);
+            }
+
             float step = speed * Time.deltaTime;
 
             if (Physics.SphereCast(transform.position, radius, transform.forward,
@@ -70,6 +83,7 @@ namespace CHG.Scripts.Weapon
         {
             base.ResetItem();
             _isDespawned = false;
+            _homingTarget = null;
         }
         
         #if UNITY_EDITOR

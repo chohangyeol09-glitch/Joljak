@@ -7,14 +7,10 @@ namespace CHG.Scripts.CombatSystem
 {
     public class HealthModule : MonoBehaviour, IModule, IAfterInitModule
     {
-        private const float VitalScale = 5f;
-        private const float VitalSoftCap = 0.01f;
-
         public event Action<int, int> OnHealthChanged; // current, max
         public event Action OnDeath;
 
         [SerializeField] private StatSO healthStat;
-        [SerializeField] private int baseMaxHealth;
         [SerializeField] private int maxHealth;
         [SerializeField] private int currentHealth;
 
@@ -38,19 +34,20 @@ namespace CHG.Scripts.CombatSystem
         {
             if (_statModule == null) return;
 
-            float vital = _statModule.SubscribeStat(healthStat.AssetIndex, HandleVitalChange, healthStat.BaseValue);    
-            
-            currentHealth = maxHealth = Mathf.Max(1, CalculateMaxHealth(vital));
-            
+            float statValue = _statModule.SubscribeStat(
+                healthStat.AssetIndex, HandleMaxHealthChange, healthStat.BaseValue);
+
+            currentHealth = maxHealth = CalculateMaxHealth(statValue);
+
             RaiseHealthChange();
         }
 
         private void OnDestroy()
         {
-            _statModule?.UnSubscribeStat(healthStat.AssetIndex, HandleVitalChange);
+            _statModule?.UnSubscribeStat(healthStat.AssetIndex, HandleMaxHealthChange);
         }
 
-        private void HandleVitalChange(StatSO stat, float currentValue, float prevValue)
+        private void HandleMaxHealthChange(StatSO stat, float currentValue, float prevValue)
         {
             int prevMaxHealth = maxHealth;
             maxHealth = CalculateMaxHealth(currentValue);
@@ -64,8 +61,8 @@ namespace CHG.Scripts.CombatSystem
             RaiseHealthChange();
         }
 
-        private int CalculateMaxHealth(float vital)
-            => baseMaxHealth + Mathf.RoundToInt(VitalScale * vital / (1f + VitalSoftCap * vital));
+        private int CalculateMaxHealth(float statValue)
+            => Mathf.Max(1, Mathf.RoundToInt(statValue));
 
         public void ApplyDamage(int damageAmount)
         {
