@@ -1,4 +1,4 @@
-﻿using CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace NKT.FlyingEnemy.Modules

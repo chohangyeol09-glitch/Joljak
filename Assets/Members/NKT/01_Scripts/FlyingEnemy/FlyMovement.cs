@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
 using NKT.Enemy.Modules;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
