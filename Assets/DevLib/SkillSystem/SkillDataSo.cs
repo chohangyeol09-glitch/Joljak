@@ -1,5 +1,4 @@
-﻿using System;
-using DevLib.AnimatorSystem;
+﻿using DevLib.AnimatorSystem;
 using UnityEngine;
 
 namespace DevLib.SkillSystem
@@ -20,7 +19,6 @@ namespace DevLib.SkillSystem
         public Sprite icon;
         public SkillType skillType;
         public DirectionType directionType;
-        public float maxRange;
         public HashDataSO skillIdHash;
         public HashDataSO skillAnimationHash;
         public float damageMultiplier = 1f;

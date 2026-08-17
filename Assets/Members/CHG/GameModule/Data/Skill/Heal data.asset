@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778011ec2909416db02f90029ff974e8, type: 3}
+  m_Name: Heal data
+  m_EditorClassIdentifier: Assembly-CSharp::CHG.Scripts.SkillSystem.SkillDatas.HealSkillDataSO
+  <AssetIndex>k__BackingField: 1
+  <AssetName>k__BackingField: "\uD68C\uBCF5"
+  SkillPrefab: {fileID: 5664678939366091217, guid: 1118d488a1b97fc43966c36c57cd0cab, type: 3}
+  PointType: 1
+  Icon: {fileID: 21300000, guid: 614aff4bfb5bb174f840189cbbba098a, type: 3}
+  Cooldown: 10
+  HealAmount: 15
+  HealPercent: 0
+  CastAnim: {fileID: 11400000, guid: 0fb9f64587386ec47b759ab1f982dccb, type: 2}

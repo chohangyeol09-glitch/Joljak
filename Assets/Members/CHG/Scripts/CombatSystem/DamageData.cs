@@ -1,17 +1,17 @@
-﻿using CHG.Scripts.CoreSystem.ModuleSystem;
+﻿using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.CombatSystem
 {
     public struct DamageData
     {
-        public float DamageAmount;
+        public int DamageAmount;
         public Vector3 HitPoint;
         public Vector3 HitNormal;
         public ModuleOwner Attacker;
         public bool IsCritical;
 
-        public DamageData(float damageAmount, Vector3 hitPoint, Vector3 hitNormal, ModuleOwner attacker, bool isCritical)
+        public DamageData(int damageAmount, Vector3 hitPoint, Vector3 hitNormal, ModuleOwner attacker, bool isCritical)
         {
             DamageAmount = damageAmount;
             HitPoint = hitPoint;

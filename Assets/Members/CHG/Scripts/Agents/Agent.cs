@@ -1,39 +1,40 @@
 ﻿using CHG.Scripts.CombatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace CHG.Scripts.Agents
 {
-    public abstract class Agent : ModuleOwner
+    public abstract class Agent : ModuleOwner, IDamageable
     {
-        public bool IsDead { get; protected set; }
         public UnityEvent OnHit;
         public UnityEvent OnDeath;
-        
+
         public HealthModule HealthModule { get; private set; }
+
+        public bool IsDead => HealthModule != null && HealthModule.IsDead;
 
         protected override void InitializeModules()
         {
             base.InitializeModules();
             HealthModule = GetModule<HealthModule>();
+
+            Debug.Assert(HealthModule != null, $"HealthModule is null : {gameObject.name}");
         }
 
         protected override void AfterInitializeModules()
         {
             base.AfterInitializeModules();
             HealthModule.OnDeath += HandleDeath;
-            OnHit.AddListener(HandleHit);
         }
 
         protected virtual void OnDestroy()
         {
             HealthModule.OnDeath -= HandleDeath;
-            OnHit.RemoveListener(HandleHit);
         }
 
         protected virtual void HandleDeath()
         {
-            IsDead = true;
             OnDeath.Invoke();
         }
 
@@ -43,13 +44,10 @@ namespace CHG.Scripts.Agents
         {
             if (IsDead) return;
 
-            if (HealthModule != null)
-            {
-                HealthModule.ApplyDamage(damageData.DamageAmount);
-            }
-            
-            OnHit?.Invoke();
+            HealthModule.ApplyDamage(damageData.DamageAmount);
+
+            HandleHit();
+            OnHit.Invoke();
         }
-        
     }
 }

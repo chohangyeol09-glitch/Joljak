@@ -1,4 +1,4 @@
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.Players
@@ -12,7 +12,10 @@ namespace CHG.Scripts.Players
 
         private PlayerMovementModule _movement;
         private PlayerLookModule _look;
+        
 
+        public Vector3 Forward => visual.forward;
+        
         public void Initialize(ModuleOwner owner)
         {
             Debug.Assert(visual != null, $"Model is null : {gameObject.name}");
@@ -57,5 +60,12 @@ namespace CHG.Scripts.Players
         }
 
         private Vector3 AimTarget() => _look.YawRotation * Vector3.forward;
+
+        public void SnapTo(Vector3 direction)
+        {
+            direction.y = 0f;
+            if (direction.sqrMagnitude < Mathf.Epsilon) return;
+            visual.rotation = Quaternion.LookRotation(direction.normalized);
+        }
     }
 }

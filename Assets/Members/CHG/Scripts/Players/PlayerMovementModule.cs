@@ -1,6 +1,6 @@
 ﻿using CHG.Scripts.Agents;
 using CHG.Scripts.Agents.StatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.Players

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CHG.Scripts.CombatSystem;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using CHG.Scripts.SkillSystem;
+using CHG.Scripts.Weapon.WeaponSO;
+using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.Agents.StatSystem
@@ -18,6 +20,14 @@ namespace CHG.Scripts.Agents.StatSystem
             _owner = owner;
             _statDict = statOverrides.ToDictionary(
                 s => s.StatData.AssetIndex, s => s.CloneStat());
+        }
+        
+        protected virtual void OnDestroy()
+        {
+            if (_statDict == null) return;
+            foreach (StatSO stat in _statDict.Values)
+                Destroy(stat);
+            _statDict.Clear();
         }
         
         public StatSO GetStat(int statIndex) => _statDict.GetValueOrDefault(statIndex);
@@ -64,6 +74,6 @@ namespace CHG.Scripts.Agents.StatSystem
             }
         }
 
-        public abstract DamageData CalculateDamage(SkillDataSO skillData);
+        public abstract DamageData CalculateDamage(DamageSource source);
     }
 }
