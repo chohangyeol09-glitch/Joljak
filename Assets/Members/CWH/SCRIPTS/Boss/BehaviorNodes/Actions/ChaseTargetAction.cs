@@ -8,12 +8,13 @@ using Action = Unity.Behavior.Action;
 namespace Boss.BehaviorNodes.Actions
 {
     [Serializable, GeneratePropertyBag]
-    [NodeDescription(name: "Chase Target", story: "[Agent] chases [Target] until within [StopRange]", category: "Boss/Action", id: "6cc6e542ee4441488cdab578d44d27dd")]
+    [NodeDescription(name: "Chase Target", story: "[Agent] chases [Target] until within [StopRange], giving up beyond [MaxRange]", category: "Boss/Action", id: "6cc6e542ee4441488cdab578d44d27dd")]
     public partial class ChaseTargetAction : Action
     {
         [SerializeReference] public BlackboardVariable<GameObject> Agent;
         [SerializeReference] public BlackboardVariable<GameObject> Target;
         [SerializeReference] public BlackboardVariable<float> StopRange = new(0f);
+        [SerializeReference] public BlackboardVariable<float> MaxRange = new(0f);
 
         private const float RepathThreshold = 0.5f;
 
@@ -41,13 +42,19 @@ namespace Boss.BehaviorNodes.Actions
         protected override Status OnUpdate()
         {
             var targetPosition = Target.Value.transform.position;
+            float distanceToTarget = Vector3.Distance(Agent.Value.transform.position, targetPosition);
+
+            if (MaxRange.Value > 0f && distanceToTarget > MaxRange.Value)
+            {
+                return Status.Failure;
+            }
+
             if (Vector3.Distance(targetPosition, lastDestination) > RepathThreshold)
             {
                 lastDestination = targetPosition;
                 mover.MoveTo(lastDestination);
             }
 
-            float distanceToTarget = Vector3.Distance(Agent.Value.transform.position, targetPosition);
             if (distanceToTarget <= StopRange.Value)
             {
                 return Status.Success;

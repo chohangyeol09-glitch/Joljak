@@ -11,5 +11,8 @@ namespace Boss.Core
 
         void MoveTo(Vector3 destination);
         void Stop();
+
+        void SuspendAutoMovement();
+        void ResumeAutoMovement(Vector3 currentPosition);
     }
 }

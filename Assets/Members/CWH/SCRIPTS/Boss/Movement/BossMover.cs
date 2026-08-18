@@ -10,6 +10,7 @@ namespace Boss.Movement
         [SerializeField] private float stoppingDistance = 0.5f;
 
         private NavMeshAgent agent;
+        private bool autoMovementSuspended;
 
         public float MoveSpeed
         {
@@ -36,6 +37,11 @@ namespace Boss.Movement
 
         private void LateUpdate()
         {
+            if (autoMovementSuspended)
+            {
+                return;
+            }
+
             transform.position = agent.nextPosition;
         }
 
@@ -51,6 +57,18 @@ namespace Boss.Movement
             {
                 agent.isStopped = true;
             }
+        }
+
+        public void SuspendAutoMovement()
+        {
+            autoMovementSuspended = true;
+            agent.isStopped = true;
+        }
+
+        public void ResumeAutoMovement(Vector3 currentPosition)
+        {
+            agent.Warp(currentPosition);
+            autoMovementSuspended = false;
         }
     }
 }

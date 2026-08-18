@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Boss.Core;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Boss.Animation
 
         private Animator animator;
         private IMovable mover;
+        private HashSet<string> parameterNames;
         private bool isDead;
         private float previousYaw;
         private float moveHoldTimer;
@@ -24,6 +26,12 @@ namespace Boss.Animation
             animator = GetComponent<Animator>();
             mover = GetComponent<IMovable>();
             previousYaw = transform.eulerAngles.y;
+
+            parameterNames = new HashSet<string>();
+            foreach (var parameter in animator.parameters)
+            {
+                parameterNames.Add(parameter.name);
+            }
         }
 
         private void Update()
@@ -68,12 +76,17 @@ namespace Boss.Animation
 
         public void PlayAttack(string attackId)
         {
-            if (isDead)
+            PlayTrigger(attackId);
+        }
+
+        public void PlayTrigger(string triggerName)
+        {
+            if (isDead || !parameterNames.Contains(triggerName))
             {
                 return;
             }
 
-            animator.SetTrigger(attackId);
+            animator.SetTrigger(triggerName);
         }
 
         public void PlayDeath()
