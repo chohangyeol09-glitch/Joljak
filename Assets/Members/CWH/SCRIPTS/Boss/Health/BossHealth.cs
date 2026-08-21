@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Boss.Health
 {
-    public class BossHealth : MonoBehaviour, IDamageable
+    public class BossHealth : MonoBehaviour, IDamageable, IHealthResettable
     {
         [SerializeField] private float maxHealth = 500f;
 
@@ -34,6 +34,17 @@ namespace Boss.Health
             {
                 Died?.Invoke();
             }
+        }
+
+        public void ResetToFull()
+        {
+            if (CurrentHealth >= maxHealth)
+            {
+                return;
+            }
+
+            CurrentHealth = maxHealth;
+            HealthChanged?.Invoke(CurrentHealth, maxHealth);
         }
     }
 }
