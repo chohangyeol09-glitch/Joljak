@@ -1,0 +1,75 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="SkillView.uss" />
+
+    <ui:VisualElement name="skill-hud" class="skill-hud" picking-mode="Ignore">
+
+        <ui:VisualElement name="skill-slot-0" class="skill-slot" picking-mode="Ignore">
+            <ui:VisualElement name="skill-icon" class="skill-slot__icon" picking-mode="Ignore">
+                <Bindings>
+                    <ui:DataBinding property="style.backgroundImage" data-source-path="icon" binding-mode="ToTarget" converter-group="Sprite to Background" source-to-ui-converters="Sprite to Background" />
+                    <ui:DataBinding property="style.unityBackgroundImageTintColor" data-source-path="isUsable" binding-mode="ToTarget" converter-group="Bool to Skill Tint" source-to-ui-converters="Bool to Skill Tint" />
+                </Bindings>
+            </ui:VisualElement>
+            <ui:VisualElement name="skill-charge" class="skill-slot__charge" picking-mode="Ignore" />
+            <ui:VisualElement name="skill-cooldown" class="skill-slot__cooldown" picking-mode="Ignore" />
+            <ui:Label name="skill-cooldown-label" class="skill-slot__cooldown-label" picking-mode="Ignore" />
+            <ui:Label name="skill-key" text="1" class="skill-slot__key" picking-mode="Ignore">
+                <Bindings>
+                    <ui:DataBinding property="text" data-source-path="keyLabel" binding-mode="ToTarget" />
+                </Bindings>
+            </ui:Label>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="skill-slot-1" class="skill-slot" picking-mode="Ignore">
+            <ui:VisualElement name="skill-icon" class="skill-slot__icon" picking-mode="Ignore">
+                <Bindings>
+                    <ui:DataBinding property="style.backgroundImage" data-source-path="icon" binding-mode="ToTarget" converter-group="Sprite to Background" source-to-ui-converters="Sprite to Background" />
+                    <ui:DataBinding property="style.unityBackgroundImageTintColor" data-source-path="isUsable" binding-mode="ToTarget" converter-group="Bool to Skill Tint" source-to-ui-converters="Bool to Skill Tint" />
+                </Bindings>
+            </ui:VisualElement>
+            <ui:VisualElement name="skill-charge" class="skill-slot__charge" picking-mode="Ignore" />
+            <ui:VisualElement name="skill-cooldown" class="skill-slot__cooldown" picking-mode="Ignore" />
+            <ui:Label name="skill-cooldown-label" class="skill-slot__cooldown-label" picking-mode="Ignore" />
+            <ui:Label name="skill-key" text="2" class="skill-slot__key" picking-mode="Ignore">
+                <Bindings>
+                    <ui:DataBinding property="text" data-source-path="keyLabel" binding-mode="ToTarget" />
+                </Bindings>
+            </ui:Label>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="skill-slot-2" class="skill-slot" picking-mode="Ignore">
+            <ui:VisualElement name="skill-icon" class="skill-slot__icon" picking-mode="Ignore">
+                <Bindings>
+                    <ui:DataBinding property="style.backgroundImage" data-source-path="icon" binding-mode="ToTarget" converter-group="Sprite to Background" source-to-ui-converters="Sprite to Background" />
+                    <ui:DataBinding property="style.unityBackgroundImageTintColor" data-source-path="isUsable" binding-mode="ToTarget" converter-group="Bool to Skill Tint" source-to-ui-converters="Bool to Skill Tint" />
+                </Bindings>
+            </ui:VisualElement>
+            <ui:VisualElement name="skill-charge" class="skill-slot__charge" picking-mode="Ignore" />
+            <ui:VisualElement name="skill-cooldown" class="skill-slot__cooldown" picking-mode="Ignore" />
+            <ui:Label name="skill-cooldown-label" class="skill-slot__cooldown-label" picking-mode="Ignore" />
+            <ui:Label name="skill-key" text="3" class="skill-slot__key" picking-mode="Ignore">
+                <Bindings>
+                    <ui:DataBinding property="text" data-source-path="keyLabel" binding-mode="ToTarget" />
+                </Bindings>
+            </ui:Label>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="skill-slot-3" class="skill-slot" picking-mode="Ignore">
+            <ui:VisualElement name="skill-icon" class="skill-slot__icon" picking-mode="Ignore">
+                <Bindings>
+                    <ui:DataBinding property="style.backgroundImage" data-source-path="icon" binding-mode="ToTarget" converter-group="Sprite to Background" source-to-ui-converters="Sprite to Background" />
+                    <ui:DataBinding property="style.unityBackgroundImageTintColor" data-source-path="isUsable" binding-mode="ToTarget" converter-group="Bool to Skill Tint" source-to-ui-converters="Bool to Skill Tint" />
+                </Bindings>
+            </ui:VisualElement>
+            <ui:VisualElement name="skill-charge" class="skill-slot__charge" picking-mode="Ignore" />
+            <ui:VisualElement name="skill-cooldown" class="skill-slot__cooldown" picking-mode="Ignore" />
+            <ui:Label name="skill-cooldown-label" class="skill-slot__cooldown-label" picking-mode="Ignore" />
+            <ui:Label name="skill-key" text="4" class="skill-slot__key" picking-mode="Ignore">
+                <Bindings>
+                    <ui:DataBinding property="text" data-source-path="keyLabel" binding-mode="ToTarget" />
+                </Bindings>
+            </ui:Label>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

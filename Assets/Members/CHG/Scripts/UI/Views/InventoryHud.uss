@@ -1,0 +1,31 @@
+.inventory-root {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.72);
+}
+
+.inventory-panel {
+    position: absolute;
+    left: 40px;
+    top: 60px;
+    bottom: 60px;
+    width: 320px;
+
+    background-color: rgba(18, 18, 22, 0.92);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.18);
+    border-radius: 4px;
+
+    padding: 10px;
+}
+
+.inventory-title {
+    font-size: 18px;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 8px 0;
+    padding: 0;
+}
+
+.inventory-list {
+    flex-grow: 1;
+}

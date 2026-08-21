@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5697121035321024356}
   - component: {fileID: 1252186665821111407}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerStat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerStatModule
   statOverrides:
+  - <StatData>k__BackingField: {fileID: 11400000, guid: 88e2e741ffd88e240b5e10b26bc9d7a5, type: 2}
+    isUseOverride: 0
+    overrideValue: 100
   - <StatData>k__BackingField: {fileID: 11400000, guid: 3645c822fbbbc6b4c93e5831fa3fd6b3, type: 2}
     isUseOverride: 1
     overrideValue: 7

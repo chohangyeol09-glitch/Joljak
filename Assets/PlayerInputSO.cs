@@ -11,13 +11,20 @@ namespace DefaultNamespace
         public event Action<Vector2> OnLookChange;
         public event Action OnAttackKeyDown;
         public event Action OnAttackKeyUp;
-        public event Action OnEventKeyDown;
-        public event Action OnEventKeyUp;
+        public event Action OnAimKeyDown;
+        public event Action OnAimKeyUp;
+        public event Action OnInteractKeyStarted;
+        public event Action OnInteractKeyPerformed;
+        public event Action OnInteractKeyCanceled;
         public event Action OnJumpKeyDown;
         public event Action OnDashKeyDown;
         public event Action OnDashKeyUp;
         public event Action OnReloadKeyDown;
         public event Action OnReloadKeyUp;
+        public event Action<int> OnSkillKeyDown;
+        public event Action<int> OnSkillKeyUp;
+        public event Action OnInventoryKeyDown;
+        
         
         private Controls _controls;
 
@@ -37,7 +44,21 @@ namespace DefaultNamespace
         {
             _controls.Player.Disable();
         }
-        
+
+        public void SetGameplayInputEnabled(bool enabled)
+        {
+            if (enabled)
+            {
+                _controls.Player.Enable();
+                return;
+            }
+            
+            _controls.Player.Disable();
+            _controls.Player.Inventory.Enable();
+            
+            CurrentMovement = Vector2.zero;
+            OnMovementChange?.Invoke(CurrentMovement);
+        }
         
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -47,7 +68,6 @@ namespace DefaultNamespace
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            //필터가 없으면 started와 performed가 같은 프레임에 둘 다 와서 회전이 2배로 들어간다
             if (!context.performed) return;
 
             OnLookChange?.Invoke(context.ReadValue<Vector2>());
@@ -63,13 +83,25 @@ namespace DefaultNamespace
                 OnAttackKeyUp?.Invoke();
         }
 
-        public void OnInteract(InputAction.CallbackContext context)
+        public void OnAim(InputAction.CallbackContext context)
         {
             if (context.performed)
-                OnEventKeyDown?.Invoke();
+                OnAimKeyDown?.Invoke();
             
             if (context.canceled)
-                OnEventKeyUp?.Invoke();
+                OnAimKeyUp?.Invoke();
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (context.started)
+                OnInteractKeyStarted?.Invoke();
+            
+            if (context.performed)
+                OnInteractKeyPerformed?.Invoke();
+            
+            if (context.canceled)
+                OnInteractKeyCanceled?.Invoke();
         }
 
         public void OnJump(InputAction.CallbackContext context)
@@ -95,6 +127,48 @@ namespace DefaultNamespace
             if (context.canceled)
                 OnReloadKeyUp?.Invoke();
                 
+        }
+
+        public void OnSkill1(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSkillKeyDown?.Invoke(0);
+            
+            if (context.canceled)
+                OnSkillKeyUp?.Invoke(0);
+        }
+
+        public void OnSkill2(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSkillKeyDown?.Invoke(1);
+            
+            if (context.canceled)
+                OnSkillKeyUp?.Invoke(1);
+        }
+
+        public void OnSkill3(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSkillKeyDown?.Invoke(2);
+            
+            if (context.canceled)
+                OnSkillKeyUp?.Invoke(2);
+        }
+
+        public void OnSkill4(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSkillKeyDown?.Invoke(3);
+            
+            if (context.canceled)
+                OnSkillKeyUp?.Invoke(3);
+        }
+
+        public void OnInventory(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnInventoryKeyDown?.Invoke();
         }
     }
 }

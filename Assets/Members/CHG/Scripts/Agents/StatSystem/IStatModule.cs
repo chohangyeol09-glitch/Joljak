@@ -1,4 +1,5 @@
 ﻿using CHG.Scripts.CombatSystem;
+using CHG.Scripts.SkillSystem;
 
 namespace CHG.Scripts.Agents.StatSystem
 {
@@ -10,6 +11,6 @@ namespace CHG.Scripts.Agents.StatSystem
         void RemoveModifier(int statIndex, object key);
         float SubscribeStat(int statIndex, StatSO.ValueChangeHandler handler, float defaultValue);
         void UnSubscribeStat(int statIndex, StatSO.ValueChangeHandler handler);
-        DamageData CalculateDamage(SkillDataSO skillData);
+        DamageData CalculateDamage(DamageSource source);
     }
 }

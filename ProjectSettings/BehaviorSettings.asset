@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Behavior.Authoring::Unity.Behavior.BehaviorProjectSettings
   m_GraphOwnerName: Self
   m_AutoSaveLastSaveLocation: 1
-  m_SaveFolder: Members/NKT/01_Scripts/Enemy/BT/Events
+  m_SaveFolder: Members/NKT/01_Scripts/FlyingEnemy/BT/Action
   m_UseSeparateSaveFolders: 0
   m_SaveFolderAction: 
   m_SaveFolderModifier: 

@@ -1,0 +1,45 @@
+.inventory-item {
+    flex-direction: row;
+    align-items: center;
+
+    height: 48px;
+    flex-shrink: 0;
+
+    margin-bottom: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 3px;
+}
+
+.inventory-item__icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+
+    background-color: rgba(0, 0, 0, 0.35);
+    -unity-background-scale-mode: scale-to-fit;
+}
+    
+.inventory-item__name {
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+
+    margin-left: 8px;
+    font-size: 14px;
+    color: rgb(235, 235, 240);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.inventory-item__count {
+    flex-shrink: 0;
+    min-width: 28px;
+
+    font-size: 15px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-right;
+    color: rgb(255, 214, 92);
+}

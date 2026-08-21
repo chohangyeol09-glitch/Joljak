@@ -1,3 +1,5 @@
+using System;
+using CHG.Scripts.Agents.StatSystem;
 using UnityEngine;
 
 public enum ItemTier
@@ -6,6 +8,13 @@ public enum ItemTier
     Uncommon,
     Rare,
     Equipment
+}
+
+[Serializable]
+public class ItemStatEffect
+{
+    public StatSO Stat;
+    public float Value;
 }
 
 [CreateAssetMenu(fileName = "ItemData", menuName = "KU/Item Data")]
@@ -17,9 +26,11 @@ public class ItemData : ScriptableObject
     [Header("UI")]
     public Sprite icon;
 
-    [Header("»óÁ¡¿¡ º¸ÀÏ Àü½Ã¿ë ¸ðµ¨")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½")]
     public GameObject displayPrefab;
 
-    [Header("±¸¸Å ÈÄ »ý¼ºµÉ ¾ÆÀÌÅÛ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public GameObject pickupPrefab;
+
+    public ItemStatEffect[] statEffects;
 }

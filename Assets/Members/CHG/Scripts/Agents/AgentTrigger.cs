@@ -1,5 +1,5 @@
 using System;
-using CHG.Scripts.CoreSystem.ModuleSystem;
+using DevLib.ModuleSystem;
 using UnityEngine;
 
 namespace CHG.Scripts.Agents

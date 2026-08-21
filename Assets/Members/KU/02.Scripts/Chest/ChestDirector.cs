@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class ChestDirector : MonoBehaviour
 {
-    [Header("상자 종류")]
-    [SerializeField] private List<ChestData> chestPool = new();
+    [Header("상자 낙하 구역")]
+    [Tooltip("비워두면 씬의 모든 ChestDropZone을 자동으로 찾습니다.")]
+    [SerializeField] private List<ChestDropZone> dropZones = new();
 
-    [Header("생성 설정")]
-    [SerializeField] private int stageBudget = 100;
-    [SerializeField] private int minimumChestCount = 5;
-    [SerializeField] private int maximumChestCount = 12;
+    [Header("배치 검사")]
+    [SerializeField] private int placementAttempts = 30;
 
-    [Header("가격 증가 설정")]
+    [Tooltip("기존 상자와 떨어져야 하는 최소 거리")]
+    [SerializeField] private float minimumChestDistance = 5f;
+
+    [Tooltip("현재 생성된 상자가 사용하는 레이어")]
+    [SerializeField] private LayerMask chestMask;
+
+    [Tooltip("건물과 바위처럼 착지 위치를 막는 레이어")]
+    [SerializeField] private LayerMask blockingMask;
+
+    [SerializeField]
+    private Vector3 landingCheckHalfExtents =
+        new Vector3(0.8f, 1f, 0.8f);
+
+    [Header("가격 증가")]
     [SerializeField] private int stageIndex;
     [SerializeField] private float priceIncreasePerStage = 0.25f;
 
@@ -20,153 +32,218 @@ public class ChestDirector : MonoBehaviour
     [SerializeField] private bool useRandomSeed = true;
     [SerializeField] private int fixedSeed = 12345;
 
-    private System.Random random;
+    [Header("생성된 상자 부모")]
+    [SerializeField] private Transform spawnedChestParent;
 
-    private void Start()
+    private System.Random random;
+    private bool isInitialized;
+
+    private void Awake()
     {
+        InitializeDirector();
+    }
+
+    private void InitializeDirector()
+    {
+        if (isInitialized)
+            return;
+
         int seed = useRandomSeed
             ? Environment.TickCount
             : fixedSeed;
 
         random = new System.Random(seed);
 
-        SpawnChests();
+        FindDropZonesIfNeeded();
+
+        isInitialized = true;
     }
 
-    private void SpawnChests()
+    public bool TryDropChest(ChestData chestData)
     {
-        ChestSpawnPoint[] foundPoints =
-            FindObjectsByType<ChestSpawnPoint>(
-                FindObjectsSortMode.None
-            );
+        if (!isInitialized)
+            InitializeDirector();
 
-        List<ChestSpawnPoint> availablePoints =
-            new List<ChestSpawnPoint>(foundPoints);
-
-        Shuffle(availablePoints);
-
-        int remainingBudget = stageBudget;
-        int spawnedCount = 0;
-
-        while (availablePoints.Count > 0 &&
-               spawnedCount < maximumChestCount)
+        if (chestData == null)
         {
-            List<ChestData> affordableChests =
-                GetAffordableChests(remainingBudget);
-
-            bool reachedMinimum =
-                spawnedCount >= minimumChestCount;
-
-            if (affordableChests.Count == 0)
-            {
-                if (reachedMinimum)
-                    break;
-
-                Debug.LogWarning(
-                    "최소 상자 개수를 채우기 전에 예산이 부족합니다."
-                );
-
-                break;
-            }
-
-            ChestData selectedData =
-                GetWeightedRandomChest(affordableChests);
-
-            if (selectedData == null)
-                break;
-
-            ChestSpawnPoint selectedPoint =
-                availablePoints[0];
-
-            availablePoints.RemoveAt(0);
-
-            Chest newChest = Instantiate(
-                selectedData.chestPrefab,
-                selectedPoint.SpawnPosition,
-                selectedPoint.SpawnRotation
+            Debug.LogWarning(
+                $"{name}: 전달받은 ChestData가 없습니다."
             );
 
-            int purchasePrice =
-                CalculatePurchasePrice(
-                    selectedData.basePurchasePrice
-                );
-
-            newChest.Initialize(purchasePrice);
-
-            remainingBudget -= selectedData.spawnCost;
-            spawnedCount++;
+            return false;
         }
 
+        if (chestData.chestPrefab == null)
+        {
+            Debug.LogWarning(
+                $"{chestData.name}: Chest Prefab이 없습니다."
+            );
+
+            return false;
+        }
+
+        if (dropZones.Count == 0)
+        {
+            Debug.LogWarning(
+                $"{name}: ChestDropZone이 없습니다."
+            );
+
+            return false;
+        }
+
+        bool foundPosition = TryFindDropPosition(
+            out Vector3 spawnPosition
+        );
+
+        if (!foundPosition)
+            return false;
+
+        SpawnChest(
+            chestData,
+            spawnPosition
+        );
+
+        return true;
+    }
+
+    private void SpawnChest(
+        ChestData chestData,
+        Vector3 spawnPosition)
+    {
+        float randomYRotation =
+            (float)random.NextDouble() * 360f;
+
+        Quaternion spawnRotation = Quaternion.Euler(
+            0f,
+            randomYRotation,
+            0f
+        );
+
+        Chest newChest = Instantiate(
+            chestData.chestPrefab,
+            spawnPosition,
+            spawnRotation,
+            spawnedChestParent
+        );
+
+        int purchasePrice = CalculatePurchasePrice(
+            chestData.basePurchasePrice
+        );
+
+        newChest.Initialize(purchasePrice);
+        newChest.BeginDrop();
+
         Debug.Log(
-            $"상자 {spawnedCount}개 생성 / 남은 예산 {remainingBudget}"
+            $"{chestData.name} 낙하 시작 / 가격: {purchasePrice}"
         );
     }
 
-    private List<ChestData> GetAffordableChests(
-        int remainingBudget
-    )
+    private bool TryFindDropPosition(
+        out Vector3 spawnPosition)
     {
-        List<ChestData> result = new();
+        spawnPosition = default;
 
-        foreach (ChestData chestData in chestPool)
+        for (int attempt = 0;
+             attempt < placementAttempts;
+             attempt++)
         {
-            if (chestData == null ||
-                chestData.chestPrefab == null)
+            ChestDropZone selectedZone =
+                dropZones[random.Next(dropZones.Count)];
+
+            if (selectedZone == null)
+                continue;
+
+            bool foundGround =
+                selectedZone.TryGetDropPosition(
+                    random,
+                    out Vector3 candidateSpawnPosition,
+                    out Vector3 candidateLandingPosition
+                );
+
+            if (!foundGround)
+                continue;
+
+            if (IsBlocked(candidateLandingPosition))
+                continue;
+
+            if (IsTooCloseToExistingChest(
+                    candidateLandingPosition))
             {
                 continue;
             }
 
-            if (chestData.spawnCost <= remainingBudget)
-                result.Add(chestData);
+            spawnPosition = candidateSpawnPosition;
+            return true;
         }
 
-        return result;
+        return false;
     }
 
-    private ChestData GetWeightedRandomChest(
-        List<ChestData> candidates
-    )
+    private bool IsBlocked(Vector3 landingPosition)
     {
-        float totalWeight = 0f;
+        if (blockingMask.value == 0)
+            return false;
 
-        foreach (ChestData candidate in candidates)
-            totalWeight += candidate.spawnWeight;
+        Vector3 checkCenter =
+            landingPosition +
+            Vector3.up *
+            (landingCheckHalfExtents.y + 0.05f);
 
-        if (totalWeight <= 0f)
-            return null;
+        return Physics.CheckBox(
+            checkCenter,
+            landingCheckHalfExtents,
+            Quaternion.identity,
+            blockingMask,
+            QueryTriggerInteraction.Ignore
+        );
+    }
 
-        double randomValue =
-            random.NextDouble() * totalWeight;
+    private bool IsTooCloseToExistingChest(
+        Vector3 landingPosition)
+    {
+        if (chestMask.value == 0)
+            return false;
 
-        float accumulatedWeight = 0f;
+        Vector3 checkPosition =
+            landingPosition + Vector3.up * 0.5f;
 
-        foreach (ChestData candidate in candidates)
-        {
-            accumulatedWeight += candidate.spawnWeight;
+        return Physics.CheckSphere(
+            checkPosition,
+            minimumChestDistance,
+            chestMask,
+            QueryTriggerInteraction.Ignore
+        );
+    }
 
-            if (randomValue <= accumulatedWeight)
-                return candidate;
-        }
+    private void FindDropZonesIfNeeded()
+    {
+        dropZones.RemoveAll(zone => zone == null);
 
-        return candidates[^1];
+        if (dropZones.Count > 0)
+            return;
+
+        ChestDropZone[] foundZones =
+            FindObjectsByType<ChestDropZone>(
+                FindObjectsSortMode.None
+            );
+
+        dropZones.AddRange(foundZones);
     }
 
     private int CalculatePurchasePrice(int basePrice)
     {
         float multiplier =
-            1f + stageIndex * priceIncreasePerStage;
+            1f +
+            stageIndex *
+            priceIncreasePerStage;
 
-        return Mathf.RoundToInt(basePrice * multiplier);
+        return Mathf.RoundToInt(
+            basePrice * multiplier
+        );
     }
 
-    private void Shuffle<T>(List<T> list)
+    public void SetStageIndex(int newStageIndex)
     {
-        for (int i = list.Count - 1; i > 0; i--)
-        {
-            int randomIndex = random.Next(i + 1);
-
-            (list[i], list[randomIndex]) =
-                (list[randomIndex], list[i]);
-        }
+        stageIndex = Mathf.Max(0, newStageIndex);
     }
 }

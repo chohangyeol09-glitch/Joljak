@@ -1,0 +1,33 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Members/CHG/Scripts/UI/Views/HealthView.uss?fileID=7433441132597879392&amp;guid=5dc485a8cd10c13419ce60823120844a&amp;type=3#HealthView"/>
+    <ui:VisualElement name="health-hud" picking-mode="Ignore" class="health-hud">
+        <ui:VisualElement name="health-top-row" picking-mode="Ignore" class="hud__top-row">
+            <ui:Label name="health-label" picking-mode="Ignore" text="Health" class="hud__name" style="text-overflow: clip;">
+                <Bindings>
+                    <ui:DataBinding property="text" data-source-path="labelName" binding-mode="ToTarget" data-source-type="CHG.Scripts.UI.ViewModels.HealthViewModelSO, Assembly-CSharp"/>
+                </Bindings>
+            </ui:Label>
+        </ui:VisualElement>
+        <ui:VisualElement name="health-track" picking-mode="Ignore" class="hud__bar-track">
+            <ui:VisualElement name="health-fill" picking-mode="Ignore" class="hud__bar-fill">
+                <Bindings>
+                    <ui:DataBinding property="style.width" data-source-path="normalized" binding-mode="ToTarget" converter-group="Float to StyleLength Percent" source-to-ui-converters="Float to StyleLength Percent"/>
+                    <ui:DataBinding property="style.backgroundColor" data-source-path="normalized" binding-mode="ToTarget" converter-group="Float to HealthBar StyleColor" source-to-ui-converters="Float to HealthBar StyleColor"/>
+                </Bindings>
+            </ui:VisualElement>
+            <ui:VisualElement name="text-container" picking-mode="Ignore" class="hud__bar-label-row">
+                <ui:Label name="health-current" picking-mode="Ignore" text="223" class="hud__bar-label">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="current" binding-mode="ToTarget" converter-group="Int to String"/>
+                    </Bindings>
+                </ui:Label>
+                <ui:Label name="slash" text="/" picking-mode="Ignore" class="hud__bar-label hud__bar-sep"/>
+                <ui:Label name="health-max" picking-mode="Ignore" text="275" class="hud__bar-label">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="max" binding-mode="ToTarget" converter-group="Int to String"/>
+                    </Bindings>
+                </ui:Label>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
