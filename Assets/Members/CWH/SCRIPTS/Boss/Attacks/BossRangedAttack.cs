@@ -20,7 +20,7 @@ namespace Boss.Attacks
 
         public string AttackId => attackId;
         public float Range => range;
-        public bool IsOnCooldown => !cooldown.IsReady;
+        public bool IsAttackable => cooldown.IsReady;
 
         private void Awake()
         {

@@ -4,7 +4,7 @@ namespace Boss.Core
     {
         string AttackId { get; }
         float Range { get; }
-        bool IsOnCooldown { get; }
+        bool IsAttackable { get; }
 
         void Begin(BossAttackContext context);
         BossAttackStatus Tick(BossAttackContext context);

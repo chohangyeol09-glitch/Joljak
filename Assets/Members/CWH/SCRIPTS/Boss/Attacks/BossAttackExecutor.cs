@@ -20,7 +20,7 @@ namespace Boss.Attacks
         public bool TryBeginAttack(string attackId, BossAttackContext context)
         {
             var attack = FindAttack(attackId);
-            if (attack == null || attack.IsOnCooldown)
+            if (attack == null || !attack.IsAttackable)
             {
                 return false;
             }
