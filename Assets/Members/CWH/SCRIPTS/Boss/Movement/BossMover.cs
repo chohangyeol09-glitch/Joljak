@@ -29,9 +29,6 @@ namespace Boss.Movement
         {
             agent = GetComponent<NavMeshAgent>();
             agent.stoppingDistance = stoppingDistance;
-
-            // Animator가 Root Motion이 꺼져 있어도 Transform에 개입해서 NavMeshAgent의 자동 이동을 상쇄시키는 문제가 있어,
-            // NavMeshAgent의 자동 위치 갱신을 끄고 Animator가 프레임을 다 처리한 뒤(LateUpdate)에 직접 위치를 맞춘다.
             agent.updatePosition = false;
         }
 

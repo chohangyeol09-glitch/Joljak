@@ -12563,7 +12563,7 @@ MonoBehaviour:
   bossTarget: {fileID: 5302380561399423624}
   minDamage: 10
   maxDamage: 5000
-  maxHoldSeconds: 1
+  maxHoldSeconds: 0.2
 --- !u!4 &1174126588
 Transform:
   m_ObjectHideFlags: 0
@@ -23671,8 +23671,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boss.UI.BossHealthBarController
   bossTarget: {fileID: 5302380561399423624}
   bossDisplayName: "\uAE61\uD1B5 \uB85C\uBD07"
+  stats: {fileID: 11400000, guid: 5e23a48516fcaba40ab13aa6aa338254, type: 2}
   slowBarDelay: 0.4
   slowBarDuration: 0.6
+  shatterPunchScale: 1.2
+  shatterBurstUndershoot: 0.85
+  shatterGrowDuration: 0.12
+  shatterBurstDuration: 0.08
+  shatterSettleDuration: 0.15
+  shatterFlashFadeDuration: 0.3
+  shatterJitterAmount: 3
+  wrapStartDelay: 0.35
+  wrapLineCount: 7
+  wrapLineWidthPercent: 34
+  wrapHorizontalOvershoot: 6
+  wrapLineFadeDuration: 0.15
+  wrapLineStagger: 0.04
 --- !u!114 &1576530535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31491,7 +31505,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5305013515721702234}

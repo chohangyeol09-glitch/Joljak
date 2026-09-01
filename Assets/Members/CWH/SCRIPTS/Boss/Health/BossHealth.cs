@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Boss.Health
 {
-    public class BossHealth : MonoBehaviour, IDamageable, IHealthResettable, IHealable
+    public class BossHealth : MonoBehaviour, IDamageable, IHealthResettable, IHealable, IHealCapSettable
     {
         [SerializeField] private float maxHealth = 500f;
 
@@ -14,6 +14,8 @@ namespace Boss.Health
 
         public event Action<float, float> HealthChanged;
         public event Action Died;
+        private float _healthCapRatio = 1f;
+        
 
         private void Awake()
         {
@@ -49,13 +51,17 @@ namespace Boss.Health
 
         public void Heal(float amount)
         {
-            if (IsDead || amount <= 0f || CurrentHealth >= maxHealth)
+            if (IsDead || amount <= 0f || CurrentHealth >= maxHealth * _healthCapRatio)
             {
                 return;
             }
 
-            CurrentHealth = Mathf.Min(maxHealth, CurrentHealth + amount);
+            CurrentHealth = Mathf.Min(maxHealth * _healthCapRatio, CurrentHealth + amount);
             HealthChanged?.Invoke(CurrentHealth, maxHealth);
+        }
+        public void SetHealCapRatio(float ratio)
+        {
+            _healthCapRatio = ratio;
         }
     }
 }

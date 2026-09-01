@@ -5,19 +5,32 @@
             <ui:Label text="[BOSS]" name="MonsterTagText" style="font-size: 16px; -unity-font-style: bold; color: rgb(135, 0, 0);"/>
             <ui:Label text="여기에 보스이름" name="BossNameText" style="-unity-text-align: middle-right; color: rgb(255, 255, 60); font-size: 16px;"/>
         </ui:VisualElement>
-        <ui:VisualElement name="BaroutLine" style="flex-basis: 20px; background-color: rgb(67, 67, 67); justify-content: center; padding-right: 6px; padding-left: 6px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
-            <ui:VisualElement name="BarTrack" style="background-color: rgb(0, 0, 0); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; flex-basis: 11px;">
-                <ui:VisualElement name="SlowBarFill" style="position: absolute; left: 0; top: 0; bottom: 0; background-color: rgb(112, 0, 0); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; width: 100%;"/>
-                <ui:VisualElement name="RealBarFill" style="position: absolute; left: 0; top: 0; bottom: 0; background-color: rgb(192, 0, 0); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; width: 100%;"/>
+        <ui:VisualElement name="BaroutLine" style="flex-basis: 20px; overflow: hidden; background-color: rgb(67, 67, 67); justify-content: center; padding-right: 6px; padding-left: 6px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
+            <ui:VisualElement name="BarTrack" style="flex-direction: row; background-color: rgb(0, 0, 0); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; flex-basis: 11px;">
+                <ui:VisualElement name="PhaseSegment0" class="phase-segment">
+                    <ui:VisualElement name="SlowFill0" class="segment-slow-fill"/>
+                    <ui:VisualElement name="RealFill0" class="segment-real-fill"/>
+                    <ui:VisualElement name="Flash0" class="segment-flash"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="PhaseSegment1" class="phase-segment">
+                    <ui:VisualElement name="SlowFill1" class="segment-slow-fill"/>
+                    <ui:VisualElement name="RealFill1" class="segment-real-fill"/>
+                    <ui:VisualElement name="Flash1" class="segment-flash"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="PhaseSegment2" class="phase-segment">
+                    <ui:VisualElement name="SlowFill2" class="segment-slow-fill"/>
+                    <ui:VisualElement name="RealFill2" class="segment-real-fill"/>
+                    <ui:VisualElement name="Flash2" class="segment-flash"/>
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="HealthPercent" style="flex-grow: 1; align-items: flex-start; justify-content: flex-start; flex-direction: column; flex-wrap: wrap-reverse;">
+        <ui:VisualElement name="HealthPercent" style="flex-grow: 1; align-items: flex-end; justify-content: flex-start; flex-direction: row; flex-wrap: wrap-reverse; align-self: flex-end;">
+            <ui:VisualElement name="PhaseRow" style="flex-direction: row; justify-content: center; margin-top: 3px; margin-bottom: 3px; display: none; right: 100px;">
+                <ui:Label text="PHASE 1" name="Phase0" class="phase-chip phase-chip--active"/>
+                <ui:Label text="PHASE 2" name="Phase1" class="phase-chip"/>
+                <ui:Label text="PHASE 3" name="Phase2" class="phase-chip"/>
+            </ui:VisualElement>
             <ui:Label text="100%" name="HealthPercentText" style="font-size: 13px; -unity-font-style: bold; color: rgb(0, 0, 0); -unity-text-align: upper-left;"/>
-        </ui:VisualElement>
-        <ui:VisualElement name="PhaseRow" style="flex-direction: row; justify-content: center; margin-top: 3px; margin-bottom: 3px; display: none;">
-            <ui:Label text="PHASE 1" name="Phase0" class="phase-chip phase-chip--active"/>
-            <ui:Label text="PHASE 2" name="Phase1" class="phase-chip"/>
-            <ui:Label text="PHASE 3" name="Phase2" class="phase-chip"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

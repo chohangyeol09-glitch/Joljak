@@ -8,22 +8,24 @@ namespace Boss.Phase
     {
         [SerializeField] private BossStatsSO stats;
 
-        private IDamageable health;
+        private IDamageable _health;
+        private IHealCapSettable _healCapSettable;
 
         public int CurrentPhase { get; private set; }
         public event Action<int> PhaseChanged;
 
         private void Awake()
         {
-            health = GetComponent<IDamageable>();
-            health.HealthChanged += OnHealthChanged;
+            _health = GetComponent<IDamageable>();
+            _healCapSettable = GetComponent<IHealCapSettable>();
+            _health.HealthChanged += OnHealthChanged;
         }
 
         private void OnDestroy()
         {
-            if (health != null)
+            if (_health != null)
             {
-                health.HealthChanged -= OnHealthChanged;
+                _health.HealthChanged -= OnHealthChanged;
             }
         }
 
@@ -40,7 +42,10 @@ namespace Boss.Phase
                     phase = i + 1;
                 }
             }
-
+            
+            float capRatio = phase == 0 ? 1f : thresholds[phase - 1];
+            _healCapSettable?.SetHealCapRatio(capRatio);
+            
             if (phase != CurrentPhase)
             {
                 CurrentPhase = phase;

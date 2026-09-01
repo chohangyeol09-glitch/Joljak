@@ -32,3 +32,48 @@
     border-left-color: rgb(230, 70, 70);
     border-right-color: rgb(230, 70, 70);
 }
+
+.phase-segment {
+    flex-grow: 1;
+    flex-basis: 0;
+    position: relative;
+    border-right-width: 1px;
+    border-right-color: rgb(0, 0, 0);
+}
+
+.segment-slow-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(112, 0, 0);
+}
+
+.segment-real-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(192, 0, 0);
+}
+
+.segment-flash {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255, 240, 200);
+    opacity: 0;
+}
+
+.wrap-line {
+    position: absolute;
+    top: -6px;
+    bottom: -6px;
+    background-color: rgb(68, 60, 56);
+    rotate: 25deg;
+    opacity: 0;
+}
